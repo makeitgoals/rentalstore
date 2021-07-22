@@ -13,6 +13,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipValidateRules": "required",
       "relationshipName": "product",
       "otherEntityField": "productName"
     },
@@ -20,12 +21,14 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "orderItem",
       "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipValidateRules": "required",
       "relationshipName": "orderItem"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipValidateRules": "required",
       "relationshipName": "customer",
       "otherEntityField": "customerName"
     }

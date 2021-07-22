@@ -10,9 +10,9 @@ export interface IBillLineItem {
   toDate?: dayjs.Dayjs;
   outstandingQuantity?: number;
   lineAmount?: number;
-  product?: IProduct | null;
-  bill?: IBill | null;
-  rentalOrder?: IRentalOrder | null;
+  product?: IProduct;
+  bill?: IBill;
+  rentalOrder?: IRentalOrder;
 }
 
 export class BillLineItem implements IBillLineItem {
@@ -23,9 +23,9 @@ export class BillLineItem implements IBillLineItem {
     public toDate?: dayjs.Dayjs,
     public outstandingQuantity?: number,
     public lineAmount?: number,
-    public product?: IProduct | null,
-    public bill?: IBill | null,
-    public rentalOrder?: IRentalOrder | null
+    public product?: IProduct,
+    public bill?: IBill,
+    public rentalOrder?: IRentalOrder
   ) {}
 }
 

@@ -88,6 +88,16 @@ class ProductResourceIT {
             .pricePerDay(DEFAULT_PRICE_PER_DAY)
             .productImage(DEFAULT_PRODUCT_IMAGE)
             .productImageContentType(DEFAULT_PRODUCT_IMAGE_CONTENT_TYPE);
+        // Add required entity
+        ProductCategory productCategory;
+        if (TestUtil.findAll(em, ProductCategory.class).isEmpty()) {
+            productCategory = ProductCategoryResourceIT.createEntity(em);
+            em.persist(productCategory);
+            em.flush();
+        } else {
+            productCategory = TestUtil.findAll(em, ProductCategory.class).get(0);
+        }
+        product.setProductCategory(productCategory);
         return product;
     }
 
@@ -105,6 +115,16 @@ class ProductResourceIT {
             .pricePerDay(UPDATED_PRICE_PER_DAY)
             .productImage(UPDATED_PRODUCT_IMAGE)
             .productImageContentType(UPDATED_PRODUCT_IMAGE_CONTENT_TYPE);
+        // Add required entity
+        ProductCategory productCategory;
+        if (TestUtil.findAll(em, ProductCategory.class).isEmpty()) {
+            productCategory = ProductCategoryResourceIT.createUpdatedEntity(em);
+            em.persist(productCategory);
+            em.flush();
+        } else {
+            productCategory = TestUtil.findAll(em, ProductCategory.class).get(0);
+        }
+        product.setProductCategory(productCategory);
         return product;
     }
 

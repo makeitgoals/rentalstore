@@ -29,11 +29,13 @@ public class OrderItem implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "customer", "billLineItems", "orderItems" }, allowSetters = true)
     private RentalOrder rentalOrder;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
     private Product product;
 

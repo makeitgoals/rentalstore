@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +54,7 @@ public class BillLineItemToOrderItemResource {
      */
     @PostMapping("/bill-line-item-to-order-items")
     public ResponseEntity<BillLineItemToOrderItemDTO> createBillLineItemToOrderItem(
-        @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
+        @Valid @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
     ) throws URISyntaxException {
         log.debug("REST request to save BillLineItemToOrderItem : {}", billLineItemToOrderItemDTO);
         if (billLineItemToOrderItemDTO.getId() != null) {
@@ -78,7 +80,7 @@ public class BillLineItemToOrderItemResource {
     @PutMapping("/bill-line-item-to-order-items/{id}")
     public ResponseEntity<BillLineItemToOrderItemDTO> updateBillLineItemToOrderItem(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
+        @Valid @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
     ) throws URISyntaxException {
         log.debug("REST request to update BillLineItemToOrderItem : {}, {}", id, billLineItemToOrderItemDTO);
         if (billLineItemToOrderItemDTO.getId() == null) {
@@ -113,7 +115,7 @@ public class BillLineItemToOrderItemResource {
     @PatchMapping(value = "/bill-line-item-to-order-items/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<BillLineItemToOrderItemDTO> partialUpdateBillLineItemToOrderItem(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
+        @NotNull @RequestBody BillLineItemToOrderItemDTO billLineItemToOrderItemDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update BillLineItemToOrderItem partially : {}, {}", id, billLineItemToOrderItemDTO);
         if (billLineItemToOrderItemDTO.getId() == null) {

@@ -13,6 +13,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "rentalOrder",
       "otherEntityRelationshipName": "orderItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "rentalOrder",
       "otherEntityField": "code"
     },
@@ -20,6 +21,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "orderItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "product",
       "otherEntityField": "productName"
     },

@@ -92,6 +92,16 @@ class BillResourceIT {
             .billTotal(DEFAULT_BILL_TOTAL)
             .taxPercent(DEFAULT_TAX_PERCENT)
             .billTotalWithTax(DEFAULT_BILL_TOTAL_WITH_TAX);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        bill.setCustomer(customer);
         return bill;
     }
 
@@ -109,6 +119,16 @@ class BillResourceIT {
             .billTotal(UPDATED_BILL_TOTAL)
             .taxPercent(UPDATED_TAX_PERCENT)
             .billTotalWithTax(UPDATED_BILL_TOTAL_WITH_TAX);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createUpdatedEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        bill.setCustomer(customer);
         return bill;
     }
 

@@ -40,6 +40,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "bill",
+      "relationshipValidateRules": "required",
       "relationshipName": "customer",
       "otherEntityField": "customerName"
     }

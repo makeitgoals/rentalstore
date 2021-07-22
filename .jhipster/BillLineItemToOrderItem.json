@@ -11,18 +11,21 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "orderItem",
       "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "orderItem"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "rentalOrder",
       "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "rentalOrder"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "billLineItem",
       "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "billLineItem"
     }
   ],

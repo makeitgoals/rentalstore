@@ -28,6 +28,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "payment",
+      "relationshipValidateRules": "required",
       "relationshipName": "customer",
       "otherEntityField": "customerName"
     }

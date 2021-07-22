@@ -42,7 +42,8 @@ public class Payment implements Serializable {
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "itemBalanceByCustomers", "rentalOrders", "bills", "payments" }, allowSetters = true)
     private Customer customer;
 

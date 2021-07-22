@@ -49,7 +49,8 @@ public class Bill implements Serializable {
     @Column(name = "bill_total_with_tax", precision = 21, scale = 2)
     private BigDecimal billTotalWithTax;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "itemBalanceByCustomers", "rentalOrders", "bills", "payments" }, allowSetters = true)
     private Customer customer;
 

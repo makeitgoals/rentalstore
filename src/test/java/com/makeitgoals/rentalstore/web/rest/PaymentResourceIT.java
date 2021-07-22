@@ -83,6 +83,16 @@ class PaymentResourceIT {
             .paymentDate(DEFAULT_PAYMENT_DATE)
             .paymentDetails(DEFAULT_PAYMENT_DETAILS)
             .paymentMethod(DEFAULT_PAYMENT_METHOD);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        payment.setCustomer(customer);
         return payment;
     }
 
@@ -98,6 +108,16 @@ class PaymentResourceIT {
             .paymentDate(UPDATED_PAYMENT_DATE)
             .paymentDetails(UPDATED_PAYMENT_DETAILS)
             .paymentMethod(UPDATED_PAYMENT_METHOD);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createUpdatedEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        payment.setCustomer(customer);
         return payment;
     }
 

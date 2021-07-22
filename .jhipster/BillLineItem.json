@@ -33,6 +33,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "billLineItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "product",
       "otherEntityField": "productName"
     },
@@ -40,6 +41,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "bill",
       "otherEntityRelationshipName": "billLineItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "bill",
       "otherEntityField": "code"
     },
@@ -47,6 +49,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "rentalOrder",
       "otherEntityRelationshipName": "billLineItem",
+      "relationshipValidateRules": "required",
       "relationshipName": "rentalOrder",
       "otherEntityField": "code"
     }

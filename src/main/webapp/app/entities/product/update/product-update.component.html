@@ -165,7 +165,7 @@
             name="productCategory"
             formControlName="productCategory"
           >
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('productCategory')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="
                 productCategoryOption.id === editForm.get('productCategory')!.value?.id
@@ -177,6 +177,20 @@
               {{ productCategoryOption.productCategoryName }}
             </option>
           </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['productCategory'])!.invalid &&
+            (editForm.get(['productCategory'])!.dirty || editForm.get(['productCategory'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['productCategory'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
         </div>
       </div>
 

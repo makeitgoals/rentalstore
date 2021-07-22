@@ -41,7 +41,8 @@ public class RentalOrder implements Serializable {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "itemBalanceByCustomers", "rentalOrders", "bills", "payments" }, allowSetters = true)
     private Customer customer;
 

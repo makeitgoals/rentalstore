@@ -5,18 +5,18 @@ import { ICustomer } from 'app/entities/customer/customer.model';
 export interface IItemBalanceByCustomer {
   id?: number;
   outstandingBalance?: number;
-  product?: IProduct | null;
-  orderItem?: IOrderItem | null;
-  customer?: ICustomer | null;
+  product?: IProduct;
+  orderItem?: IOrderItem;
+  customer?: ICustomer;
 }
 
 export class ItemBalanceByCustomer implements IItemBalanceByCustomer {
   constructor(
     public id?: number,
     public outstandingBalance?: number,
-    public product?: IProduct | null,
-    public orderItem?: IOrderItem | null,
-    public customer?: ICustomer | null
+    public product?: IProduct,
+    public orderItem?: IOrderItem,
+    public customer?: ICustomer
   ) {}
 }
 

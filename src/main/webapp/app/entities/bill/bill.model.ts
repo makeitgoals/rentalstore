@@ -9,7 +9,7 @@ export interface IBill {
   billTotal?: number;
   taxPercent?: number | null;
   billTotalWithTax?: number | null;
-  customer?: ICustomer | null;
+  customer?: ICustomer;
 }
 
 export class Bill implements IBill {
@@ -21,7 +21,7 @@ export class Bill implements IBill {
     public billTotal?: number,
     public taxPercent?: number | null,
     public billTotalWithTax?: number | null,
-    public customer?: ICustomer | null
+    public customer?: ICustomer
   ) {}
 }
 

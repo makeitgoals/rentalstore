@@ -88,21 +88,21 @@ enum PaymentMethod {
 }
 
 relationship ManyToOne {
-    Product{ProductCategory(productCategoryName)} to ProductCategory,
-    ItemBalanceByCustomer{product(productName)} to Product,
-    ItemBalanceByCustomer{orderItem} to OrderItem{itemBalanceByCustomer},
-    ItemBalanceByCustomer{customer(customerName)} to Customer{itemBalanceByCustomer},
-    BillLineItem{product(productName)} to Product,
-    BillLineItem{bill(code)} to Bill,
-    BillLineItem{rentalOrder(code)} to RentalOrder{billLineItem},
-    BillLineItemToOrderItem{orderItem} to OrderItem,
-    BillLineItemToOrderItem{rentalOrder} to RentalOrder,
-    BillLineItemToOrderItem{billLineItem} to BillLineItem,
-    OrderItem{rentalOrder(code)} to RentalOrder{orderItem},
-    OrderItem{product(productName)} to Product,
-    RentalOrder{customer(customerName)} to Customer{rentalOrder},
-    Bill{customer(customerName)} to Customer{bill},
-    Payment{customer(customerName)} to Customer{payment}
+    Product{ProductCategory(productCategoryName) required} to ProductCategory,
+    ItemBalanceByCustomer{product(productName) required} to Product,
+    ItemBalanceByCustomer{orderItem required} to OrderItem{itemBalanceByCustomer},
+    ItemBalanceByCustomer{customer(customerName) required} to Customer{itemBalanceByCustomer},
+    BillLineItem{product(productName) required} to Product,
+    BillLineItem{bill(code) required} to Bill,
+    BillLineItem{rentalOrder(code) required} to RentalOrder{billLineItem},
+    BillLineItemToOrderItem{orderItem required} to OrderItem,
+    BillLineItemToOrderItem{rentalOrder required} to RentalOrder,
+    BillLineItemToOrderItem{billLineItem required} to BillLineItem,
+    OrderItem{rentalOrder(code) required} to RentalOrder{orderItem},
+    OrderItem{product(productName) required} to Product,
+    RentalOrder{customer(customerName) required} to Customer{rentalOrder},
+    Bill{customer(customerName) required} to Customer{bill},
+    Payment{customer(customerName) required} to Customer{payment}
 }
 
 // Set pagination options

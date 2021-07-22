@@ -82,6 +82,16 @@ class RentalOrderResourceIT {
             .rentalReturnDate(DEFAULT_RENTAL_RETURN_DATE)
             .rentalOrderStatus(DEFAULT_RENTAL_ORDER_STATUS)
             .code(DEFAULT_CODE);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        rentalOrder.setCustomer(customer);
         return rentalOrder;
     }
 
@@ -97,6 +107,16 @@ class RentalOrderResourceIT {
             .rentalReturnDate(UPDATED_RENTAL_RETURN_DATE)
             .rentalOrderStatus(UPDATED_RENTAL_ORDER_STATUS)
             .code(UPDATED_CODE);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createUpdatedEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        rentalOrder.setCustomer(customer);
         return rentalOrder;
     }
 

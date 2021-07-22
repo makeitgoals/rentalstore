@@ -1,11 +1,11 @@
-id;payment_amount;payment_date;payment_details;payment_method
-1;36635;2021-07-22T04:27:09;Guernsey hacking;CASH
-2;30925;2021-07-22T03:18:15;Rustic Wooden;ACCOUNT
-3;33338;2021-07-21T13:25:18;Buckinghamshire back e-services;CASH
-4;31576;2021-07-21T14:21:07;Fish;CASH
-5;56143;2021-07-22T08:43:22;PNG Avon Belarussian;ACCOUNT
-6;13643;2021-07-22T05:50:35;syndicate;CASH
-7;68308;2021-07-21T15:39:26;Berkshire;CASH
-8;25457;2021-07-21T17:44:58;transmit;ACCOUNT
-9;45056;2021-07-21T15:24:55;Gorgeous;ACCOUNT
-10;39371;2021-07-21T20:57:08;Accountability;CASH
+id;payment_amount;payment_date;payment_details;payment_method;customer_id
+1;36635;2021-07-22T04:27:09;Guernsey hacking;CASH;1
+2;30925;2021-07-22T03:18:15;Rustic Wooden;ACCOUNT;2
+3;33338;2021-07-21T13:25:18;Buckinghamshire back e-services;CASH;3
+4;31576;2021-07-21T14:21:07;Fish;CASH;4
+5;56143;2021-07-22T08:43:22;PNG Avon Belarussian;ACCOUNT;5
+6;13643;2021-07-22T05:50:35;syndicate;CASH;6
+7;68308;2021-07-21T15:39:26;Berkshire;CASH;7
+8;25457;2021-07-21T17:44:58;transmit;ACCOUNT;8
+9;45056;2021-07-21T15:24:55;Gorgeous;ACCOUNT;9
+10;39371;2021-07-21T20:57:08;Accountability;CASH;10

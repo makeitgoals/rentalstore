@@ -32,6 +32,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "productCategory",
       "otherEntityRelationshipName": "product",
+      "relationshipValidateRules": "required",
       "relationshipName": "productCategory",
       "otherEntityField": "productCategoryName"
     }

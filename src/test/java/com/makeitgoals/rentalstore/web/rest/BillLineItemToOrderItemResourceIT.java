@@ -6,7 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.makeitgoals.rentalstore.IntegrationTest;
+import com.makeitgoals.rentalstore.domain.BillLineItem;
 import com.makeitgoals.rentalstore.domain.BillLineItemToOrderItem;
+import com.makeitgoals.rentalstore.domain.OrderItem;
+import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.BillLineItemToOrderItemRepository;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemToOrderItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.BillLineItemToOrderItemMapper;
@@ -62,6 +65,36 @@ class BillLineItemToOrderItemResourceIT {
      */
     public static BillLineItemToOrderItem createEntity(EntityManager em) {
         BillLineItemToOrderItem billLineItemToOrderItem = new BillLineItemToOrderItem().details(DEFAULT_DETAILS);
+        // Add required entity
+        OrderItem orderItem;
+        if (TestUtil.findAll(em, OrderItem.class).isEmpty()) {
+            orderItem = OrderItemResourceIT.createEntity(em);
+            em.persist(orderItem);
+            em.flush();
+        } else {
+            orderItem = TestUtil.findAll(em, OrderItem.class).get(0);
+        }
+        billLineItemToOrderItem.setOrderItem(orderItem);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        billLineItemToOrderItem.setRentalOrder(rentalOrder);
+        // Add required entity
+        BillLineItem billLineItem;
+        if (TestUtil.findAll(em, BillLineItem.class).isEmpty()) {
+            billLineItem = BillLineItemResourceIT.createEntity(em);
+            em.persist(billLineItem);
+            em.flush();
+        } else {
+            billLineItem = TestUtil.findAll(em, BillLineItem.class).get(0);
+        }
+        billLineItemToOrderItem.setBillLineItem(billLineItem);
         return billLineItemToOrderItem;
     }
 
@@ -73,6 +106,36 @@ class BillLineItemToOrderItemResourceIT {
      */
     public static BillLineItemToOrderItem createUpdatedEntity(EntityManager em) {
         BillLineItemToOrderItem billLineItemToOrderItem = new BillLineItemToOrderItem().details(UPDATED_DETAILS);
+        // Add required entity
+        OrderItem orderItem;
+        if (TestUtil.findAll(em, OrderItem.class).isEmpty()) {
+            orderItem = OrderItemResourceIT.createUpdatedEntity(em);
+            em.persist(orderItem);
+            em.flush();
+        } else {
+            orderItem = TestUtil.findAll(em, OrderItem.class).get(0);
+        }
+        billLineItemToOrderItem.setOrderItem(orderItem);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createUpdatedEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        billLineItemToOrderItem.setRentalOrder(rentalOrder);
+        // Add required entity
+        BillLineItem billLineItem;
+        if (TestUtil.findAll(em, BillLineItem.class).isEmpty()) {
+            billLineItem = BillLineItemResourceIT.createUpdatedEntity(em);
+            em.persist(billLineItem);
+            em.flush();
+        } else {
+            billLineItem = TestUtil.findAll(em, BillLineItem.class).get(0);
+        }
+        billLineItemToOrderItem.setBillLineItem(billLineItem);
         return billLineItemToOrderItem;
     }
 

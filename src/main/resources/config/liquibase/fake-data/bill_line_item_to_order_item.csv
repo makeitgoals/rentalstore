@@ -1,11 +1,11 @@
-id;details
-1;Ethiopian distributed
-2;bypassing Money Assistant
-3;lime
-4;Buckinghamshire Distributed
-5;Branding
-6;Tuna Consultant Adaptive
-7;Legacy Awesome
-8;content Berkshire
-9;Avon
-10;Response Loan Wooden
+id;details;order_item_id;rental_order_id;bill_line_item_id
+1;Ethiopian distributed;1;1;1
+2;bypassing Money Assistant;2;2;2
+3;lime;3;3;3
+4;Buckinghamshire Distributed;4;4;4
+5;Branding;5;5;5
+6;Tuna Consultant Adaptive;6;6;6
+7;Legacy Awesome;7;7;7
+8;content Berkshire;8;8;8
+9;Avon;9;9;9
+10;Response Loan Wooden;10;10;10
