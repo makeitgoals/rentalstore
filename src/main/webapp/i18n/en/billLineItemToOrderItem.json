@@ -1,0 +1,27 @@
+{
+  "rentalstoreApp": {
+    "billLineItemToOrderItem": {
+      "home": {
+        "title": "Bill Line Item To Order Items",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Bill Line Item To Order Item",
+        "createOrEditLabel": "Create or edit a Bill Line Item To Order Item",
+        "notFound": "No Bill Line Item To Order Items found"
+      },
+      "created": "A new Bill Line Item To Order Item is created with identifier {{ param }}",
+      "updated": "A Bill Line Item To Order Item is updated with identifier {{ param }}",
+      "deleted": "A Bill Line Item To Order Item is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Bill Line Item To Order Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill Line Item To Order Item"
+      },
+      "id": "ID",
+      "details": "Details",
+      "orderItem": "Order Item",
+      "rentalOrder": "Rental Order",
+      "billLineItem": "Bill Line Item"
+    }
+  }
+}

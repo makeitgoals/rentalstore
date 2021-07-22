@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="itemBalanceByCustomer">
+      <h2 data-cy="itemBalanceByCustomerDetailsHeading">
+        <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.detail.title">Item Balance By Customer</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ itemBalanceByCustomer.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.outstandingBalance">Outstanding Balance</span></dt>
+        <dd>
+          <span>{{ itemBalanceByCustomer.outstandingBalance }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.product">Product</span></dt>
+        <dd>
+          <div *ngIf="itemBalanceByCustomer.product">
+            <a [routerLink]="['/product', itemBalanceByCustomer.product?.id, 'view']">{{ itemBalanceByCustomer.product?.productName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.orderItem">Order Item</span></dt>
+        <dd>
+          <div *ngIf="itemBalanceByCustomer.orderItem">
+            <a [routerLink]="['/order-item', itemBalanceByCustomer.orderItem?.id, 'view']">{{ itemBalanceByCustomer.orderItem?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="itemBalanceByCustomer.customer">
+            <a [routerLink]="['/customer', itemBalanceByCustomer.customer?.id, 'view']">{{
+              itemBalanceByCustomer.customer?.customerName
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/item-balance-by-customer', itemBalanceByCustomer.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

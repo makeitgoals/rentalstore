@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="bill">
+      <h2 data-cy="billDetailsHeading"><span jhiTranslate="rentalstoreApp.bill.detail.title">Bill</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ bill.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.code">Code</span></dt>
+        <dd>
+          <span>{{ bill.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.costBillNumber">Cost Bill Number</span></dt>
+        <dd>
+          <span>{{ bill.costBillNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.billStatus">Bill Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'rentalstoreApp.BillStatus.' + bill.billStatus }}">{{ bill.billStatus }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.billTotal">Bill Total</span></dt>
+        <dd>
+          <span>{{ bill.billTotal }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.taxPercent">Tax Percent</span></dt>
+        <dd>
+          <span>{{ bill.taxPercent }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.billTotalWithTax">Bill Total With Tax</span></dt>
+        <dd>
+          <span>{{ bill.billTotalWithTax }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.bill.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="bill.customer">
+            <a [routerLink]="['/customer', bill.customer?.id, 'view']">{{ bill.customer?.customerName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bill', bill.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

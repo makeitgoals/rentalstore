@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity ItemBalanceByCustomer.
+    -->
+    <changeSet id="20210722085203-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="item_balance_by_customer"
+                                 constraintName="fk_item_balance_by_customer__product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="order_item_id"
+                                 baseTableName="item_balance_by_customer"
+                                 constraintName="fk_item_balance_by_customer__order_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order_item"/>
+
+        <addForeignKeyConstraint baseColumnNames="customer_id"
+                                 baseTableName="item_balance_by_customer"
+                                 constraintName="fk_item_balance_by_customer__customer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="customer"/>
+    </changeSet>
+</databaseChangeLog>

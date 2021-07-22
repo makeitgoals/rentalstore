@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="billLineItemToOrderItem">
+      <h2 data-cy="billLineItemToOrderItemDetailsHeading">
+        <span jhiTranslate="rentalstoreApp.billLineItemToOrderItem.detail.title">Bill Line Item To Order Item</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ billLineItemToOrderItem.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItemToOrderItem.details">Details</span></dt>
+        <dd>
+          <span>{{ billLineItemToOrderItem.details }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItemToOrderItem.orderItem">Order Item</span></dt>
+        <dd>
+          <div *ngIf="billLineItemToOrderItem.orderItem">
+            <a [routerLink]="['/order-item', billLineItemToOrderItem.orderItem?.id, 'view']">{{ billLineItemToOrderItem.orderItem?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItemToOrderItem.rentalOrder">Rental Order</span></dt>
+        <dd>
+          <div *ngIf="billLineItemToOrderItem.rentalOrder">
+            <a [routerLink]="['/rental-order', billLineItemToOrderItem.rentalOrder?.id, 'view']">{{
+              billLineItemToOrderItem.rentalOrder?.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItemToOrderItem.billLineItem">Bill Line Item</span></dt>
+        <dd>
+          <div *ngIf="billLineItemToOrderItem.billLineItem">
+            <a [routerLink]="['/bill-line-item', billLineItemToOrderItem.billLineItem?.id, 'view']">{{
+              billLineItemToOrderItem.billLineItem?.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bill-line-item-to-order-item', billLineItemToOrderItem.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "name": "ProductCategory",
+  "fields": [
+    {
+      "fieldName": "productCategoryName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "productCategoryDescription",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "product_category",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085200"
+}

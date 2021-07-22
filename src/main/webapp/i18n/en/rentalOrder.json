@@ -1,0 +1,30 @@
+{
+  "rentalstoreApp": {
+    "rentalOrder": {
+      "home": {
+        "title": "Rental Orders",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Rental Order",
+        "createOrEditLabel": "Create or edit a Rental Order",
+        "notFound": "No Rental Orders found"
+      },
+      "created": "A new Rental Order is created with identifier {{ param }}",
+      "updated": "A Rental Order is updated with identifier {{ param }}",
+      "deleted": "A Rental Order is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Rental Order {{ id }}?"
+      },
+      "detail": {
+        "title": "Rental Order"
+      },
+      "id": "ID",
+      "rentalIssueDate": "Rental Issue Date",
+      "rentalReturnDate": "Rental Return Date",
+      "rentalOrderStatus": "Rental Order Status",
+      "code": "Code",
+      "customer": "Customer",
+      "billLineItem": "Bill Line Item",
+      "orderItem": "Order Item"
+    }
+  }
+}

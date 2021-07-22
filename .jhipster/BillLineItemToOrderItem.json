@@ -1,0 +1,39 @@
+{
+  "name": "BillLineItemToOrderItem",
+  "fields": [
+    {
+      "fieldName": "details",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipName": "orderItem"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "rentalOrder",
+      "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipName": "rentalOrder"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "billLineItem",
+      "otherEntityRelationshipName": "billLineItemToOrderItem",
+      "relationshipName": "billLineItem"
+    }
+  ],
+  "entityTableName": "bill_line_item_to_order_item",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085206"
+}

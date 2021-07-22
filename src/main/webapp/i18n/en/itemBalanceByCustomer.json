@@ -1,0 +1,27 @@
+{
+  "rentalstoreApp": {
+    "itemBalanceByCustomer": {
+      "home": {
+        "title": "Item Balance By Customers",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Item Balance By Customer",
+        "createOrEditLabel": "Create or edit a Item Balance By Customer",
+        "notFound": "No Item Balance By Customers found"
+      },
+      "created": "A new Item Balance By Customer is created with identifier {{ param }}",
+      "updated": "A Item Balance By Customer is updated with identifier {{ param }}",
+      "deleted": "A Item Balance By Customer is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Item Balance By Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Item Balance By Customer"
+      },
+      "id": "ID",
+      "outstandingBalance": "Outstanding Balance",
+      "product": "Product",
+      "orderItem": "Order Item",
+      "customer": "Customer"
+    }
+  }
+}

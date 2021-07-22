@@ -1,0 +1,223 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-bill-line-item-heading"
+        data-cy="BillLineItemCreateUpdateHeading"
+        jhiTranslate="rentalstoreApp.billLineItem.home.createOrEditLabel"
+      >
+        Create or edit a Bill Line Item
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.details" for="field_details">Details</label>
+          <input type="text" class="form-control" name="details" id="field_details" data-cy="details" formControlName="details" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.fromDate" for="field_fromDate">From Date</label>
+          <div class="d-flex">
+            <input
+              id="field_fromDate"
+              data-cy="fromDate"
+              type="datetime-local"
+              class="form-control"
+              name="fromDate"
+              formControlName="fromDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('fromDate')!.invalid && (editForm.get('fromDate')!.dirty || editForm.get('fromDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('fromDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('fromDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.toDate" for="field_toDate">To Date</label>
+          <div class="d-flex">
+            <input
+              id="field_toDate"
+              data-cy="toDate"
+              type="datetime-local"
+              class="form-control"
+              name="toDate"
+              formControlName="toDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('toDate')!.invalid && (editForm.get('toDate')!.dirty || editForm.get('toDate')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('toDate')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('toDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.outstandingQuantity" for="field_outstandingQuantity"
+            >Outstanding Quantity</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="outstandingQuantity"
+            id="field_outstandingQuantity"
+            data-cy="outstandingQuantity"
+            formControlName="outstandingQuantity"
+          />
+          <div
+            *ngIf="
+              editForm.get('outstandingQuantity')!.invalid &&
+              (editForm.get('outstandingQuantity')!.dirty || editForm.get('outstandingQuantity')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('outstandingQuantity')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('outstandingQuantity')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 0 }"
+            >
+              This field should be at least 0.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('outstandingQuantity')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.lineAmount" for="field_lineAmount">Line Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="lineAmount"
+            id="field_lineAmount"
+            data-cy="lineAmount"
+            formControlName="lineAmount"
+          />
+          <div *ngIf="editForm.get('lineAmount')!.invalid && (editForm.get('lineAmount')!.dirty || editForm.get('lineAmount')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lineAmount')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lineAmount')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 0 }"
+            >
+              This field should be at least 0.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('lineAmount')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.product" for="field_product">Product</label>
+          <select class="form-control" id="field_product" data-cy="product" name="product" formControlName="product">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="productOption.id === editForm.get('product')!.value?.id ? editForm.get('product')!.value : productOption"
+              *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
+            >
+              {{ productOption.productName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.bill" for="field_bill">Bill</label>
+          <select class="form-control" id="field_bill" data-cy="bill" name="bill" formControlName="bill">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="billOption.id === editForm.get('bill')!.value?.id ? editForm.get('bill')!.value : billOption"
+              *ngFor="let billOption of billsSharedCollection; trackBy: trackBillById"
+            >
+              {{ billOption.code }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.rentalOrder" for="field_rentalOrder"
+            >Rental Order</label
+          >
+          <select class="form-control" id="field_rentalOrder" data-cy="rentalOrder" name="rentalOrder" formControlName="rentalOrder">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                rentalOrderOption.id === editForm.get('rentalOrder')!.value?.id ? editForm.get('rentalOrder')!.value : rentalOrderOption
+              "
+              *ngFor="let rentalOrderOption of rentalOrdersSharedCollection; trackBy: trackRentalOrderById"
+            >
+              {{ rentalOrderOption.code }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

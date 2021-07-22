@@ -7,6 +7,17 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "company": "Company",
+        "customer": "Customer",
+        "product": "Product",
+        "productCategory": "Product Category",
+        "rentalOrder": "Rental Order",
+        "orderItem": "Order Item",
+        "itemBalanceByCustomer": "Item Balance By Customer",
+        "bill": "Bill",
+        "billLineItem": "Bill Line Item",
+        "billLineItemToOrderItem": "Bill Line Item To Order Item",
+        "payment": "Payment",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -1,0 +1,27 @@
+{
+  "rentalstoreApp": {
+    "billLineItemToOrderItem": {
+      "home": {
+        "title": "BillLineItemToOrderItems",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Bill Line Item To Order Item",
+        "createOrEditLabel": "Créer ou éditer un Bill Line Item To Order Item",
+        "notFound": "Aucun Bill Line Item To Order Item trouvé"
+      },
+      "created": "Un nouveau Bill Line Item To Order Item a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Bill Line Item To Order Item avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Bill Line Item To Order Item avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Bill Line Item To Order Item {{ id }} ?"
+      },
+      "detail": {
+        "title": "Bill Line Item To Order Item"
+      },
+      "id": "ID",
+      "details": "Details",
+      "orderItem": "Order Item",
+      "rentalOrder": "Rental Order",
+      "billLineItem": "Bill Line Item"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+<div>
+  <h2 id="page-heading" data-cy="BillLineItemHeading">
+    <span jhiTranslate="rentalstoreApp.billLineItem.home.title">Bill Line Items</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="rentalstoreApp.billLineItem.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-bill-line-item"
+        [routerLink]="['/bill-line-item/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="rentalstoreApp.billLineItem.home.createLabel"> Create a new Bill Line Item </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="billLineItems?.length === 0">
+    <span jhiTranslate="rentalstoreApp.billLineItem.home.notFound">No billLineItems found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="billLineItems && billLineItems.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.details">Details</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.fromDate">From Date</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.toDate">To Date</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.outstandingQuantity">Outstanding Quantity</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.lineAmount">Line Amount</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.product">Product</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.bill">Bill</span></th>
+          <th scope="col"><span jhiTranslate="rentalstoreApp.billLineItem.rentalOrder">Rental Order</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let billLineItem of billLineItems; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/bill-line-item', billLineItem.id, 'view']">{{ billLineItem.id }}</a>
+          </td>
+          <td>{{ billLineItem.details }}</td>
+          <td>{{ billLineItem.fromDate | formatMediumDatetime }}</td>
+          <td>{{ billLineItem.toDate | formatMediumDatetime }}</td>
+          <td>{{ billLineItem.outstandingQuantity }}</td>
+          <td>{{ billLineItem.lineAmount }}</td>
+          <td>
+            <div *ngIf="billLineItem.product">
+              <a [routerLink]="['/product', billLineItem.product?.id, 'view']">{{ billLineItem.product?.productName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="billLineItem.bill">
+              <a [routerLink]="['/bill', billLineItem.bill?.id, 'view']">{{ billLineItem.bill?.code }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="billLineItem.rentalOrder">
+              <a [routerLink]="['/rental-order', billLineItem.rentalOrder?.id, 'view']">{{ billLineItem.rentalOrder?.code }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/bill-line-item', billLineItem.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/bill-line-item', billLineItem.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(billLineItem)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

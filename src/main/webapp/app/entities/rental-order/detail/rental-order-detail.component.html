@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="rentalOrder">
+      <h2 data-cy="rentalOrderDetailsHeading"><span jhiTranslate="rentalstoreApp.rentalOrder.detail.title">Rental Order</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ rentalOrder.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.rentalOrder.rentalIssueDate">Rental Issue Date</span></dt>
+        <dd>
+          <span>{{ rentalOrder.rentalIssueDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.rentalOrder.rentalReturnDate">Rental Return Date</span></dt>
+        <dd>
+          <span>{{ rentalOrder.rentalReturnDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.rentalOrder.rentalOrderStatus">Rental Order Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'rentalstoreApp.OrderStatus.' + rentalOrder.rentalOrderStatus }}">{{
+            rentalOrder.rentalOrderStatus
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.rentalOrder.code">Code</span></dt>
+        <dd>
+          <span>{{ rentalOrder.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.rentalOrder.customer">Customer</span></dt>
+        <dd>
+          <div *ngIf="rentalOrder.customer">
+            <a [routerLink]="['/customer', rentalOrder.customer?.id, 'view']">{{ rentalOrder.customer?.customerName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/rental-order', rentalOrder.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+{
+  "name": "ItemBalanceByCustomer",
+  "fields": [
+    {
+      "fieldName": "outstandingBalance",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipName": "product",
+      "otherEntityField": "productName"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipName": "orderItem"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "itemBalanceByCustomer",
+      "relationshipName": "customer",
+      "otherEntityField": "customerName"
+    }
+  ],
+  "entityTableName": "item_balance_by_customer",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085203"
+}

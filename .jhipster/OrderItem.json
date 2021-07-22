@@ -1,0 +1,43 @@
+{
+  "name": "OrderItem",
+  "fields": [
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "rentalOrder",
+      "otherEntityRelationshipName": "orderItem",
+      "relationshipName": "rentalOrder",
+      "otherEntityField": "code"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "orderItem",
+      "relationshipName": "product",
+      "otherEntityField": "productName"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "itemBalanceByCustomer",
+      "otherEntityRelationshipName": "orderItem",
+      "relationshipName": "itemBalanceByCustomer"
+    }
+  ],
+  "entityTableName": "order_item",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085202"
+}

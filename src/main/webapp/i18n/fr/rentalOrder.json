@@ -1,0 +1,30 @@
+{
+  "rentalstoreApp": {
+    "rentalOrder": {
+      "home": {
+        "title": "RentalOrders",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Rental Order",
+        "createOrEditLabel": "Créer ou éditer un Rental Order",
+        "notFound": "Aucun Rental Order trouvé"
+      },
+      "created": "Un nouveau Rental Order a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Rental Order avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Rental Order avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Rental Order {{ id }} ?"
+      },
+      "detail": {
+        "title": "Rental Order"
+      },
+      "id": "ID",
+      "rentalIssueDate": "Rental Issue Date",
+      "rentalReturnDate": "Rental Return Date",
+      "rentalOrderStatus": "Rental Order Status",
+      "code": "Code",
+      "customer": "Customer",
+      "billLineItem": "Bill Line Item",
+      "orderItem": "Order Item"
+    }
+  }
+}

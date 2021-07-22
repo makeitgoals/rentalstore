@@ -1,0 +1,86 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-product-category-heading"
+        data-cy="ProductCategoryCreateUpdateHeading"
+        jhiTranslate="rentalstoreApp.productCategory.home.createOrEditLabel"
+      >
+        Create or edit a Product Category
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="rentalstoreApp.productCategory.productCategoryName"
+            for="field_productCategoryName"
+            >Product Category Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="productCategoryName"
+            id="field_productCategoryName"
+            data-cy="productCategoryName"
+            formControlName="productCategoryName"
+          />
+          <div
+            *ngIf="
+              editForm.get('productCategoryName')!.invalid &&
+              (editForm.get('productCategoryName')!.dirty || editForm.get('productCategoryName')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('productCategoryName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="rentalstoreApp.productCategory.productCategoryDescription"
+            for="field_productCategoryDescription"
+            >Product Category Description</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="productCategoryDescription"
+            id="field_productCategoryDescription"
+            data-cy="productCategoryDescription"
+            formControlName="productCategoryDescription"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

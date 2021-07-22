@@ -1,0 +1,127 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-rental-order-heading"
+        data-cy="RentalOrderCreateUpdateHeading"
+        jhiTranslate="rentalstoreApp.rentalOrder.home.createOrEditLabel"
+      >
+        Create or edit a Rental Order
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.rentalOrder.rentalIssueDate" for="field_rentalIssueDate"
+            >Rental Issue Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_rentalIssueDate"
+              data-cy="rentalIssueDate"
+              type="datetime-local"
+              class="form-control"
+              name="rentalIssueDate"
+              formControlName="rentalIssueDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.rentalOrder.rentalReturnDate" for="field_rentalReturnDate"
+            >Rental Return Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_rentalReturnDate"
+              data-cy="rentalReturnDate"
+              type="datetime-local"
+              class="form-control"
+              name="rentalReturnDate"
+              formControlName="rentalReturnDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.rentalOrder.rentalOrderStatus" for="field_rentalOrderStatus"
+            >Rental Order Status</label
+          >
+          <select
+            class="form-control"
+            name="rentalOrderStatus"
+            formControlName="rentalOrderStatus"
+            id="field_rentalOrderStatus"
+            data-cy="rentalOrderStatus"
+          >
+            <option [ngValue]="null">{{ 'rentalstoreApp.OrderStatus.null' | translate }}</option>
+            <option value="COMPLETED">{{ 'rentalstoreApp.OrderStatus.COMPLETED' | translate }}</option>
+            <option value="PENDING">{{ 'rentalstoreApp.OrderStatus.PENDING' | translate }}</option>
+            <option value="CANCELLED">{{ 'rentalstoreApp.OrderStatus.CANCELLED' | translate }}</option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('rentalOrderStatus')!.invalid &&
+              (editForm.get('rentalOrderStatus')!.dirty || editForm.get('rentalOrderStatus')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('rentalOrderStatus')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.rentalOrder.code" for="field_code">Code</label>
+          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+          <div *ngIf="editForm.get('code')!.invalid && (editForm.get('code')!.dirty || editForm.get('code')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('code')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="rentalstoreApp.rentalOrder.customer" for="field_customer">Customer</label>
+          <select class="form-control" id="field_customer" data-cy="customer" name="customer" formControlName="customer">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="customerOption.id === editForm.get('customer')!.value?.id ? editForm.get('customer')!.value : customerOption"
+              *ngFor="let customerOption of customersSharedCollection; trackBy: trackCustomerById"
+            >
+              {{ customerOption.customerName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

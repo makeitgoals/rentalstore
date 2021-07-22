@@ -1,0 +1,65 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="product">
+      <h2 data-cy="productDetailsHeading"><span jhiTranslate="rentalstoreApp.product.detail.title">Product</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ product.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.productName">Product Name</span></dt>
+        <dd>
+          <span>{{ product.productName }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.productDescription">Product Description</span></dt>
+        <dd>
+          <span>{{ product.productDescription }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.productSize">Product Size</span></dt>
+        <dd>
+          <span>{{ product.productSize }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.pricePerDay">Price Per Day</span></dt>
+        <dd>
+          <span>{{ product.pricePerDay }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.productImage">Product Image</span></dt>
+        <dd>
+          <div *ngIf="product.productImage">
+            <a (click)="openFile(product.productImage, product.productImageContentType)">
+              <img
+                [src]="'data:' + product.productImageContentType + ';base64,' + product.productImage"
+                style="max-width: 100%"
+                alt="product image"
+              />
+            </a>
+            {{ product.productImageContentType }}, {{ byteSize(product.productImage) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.product.productCategory">Product Category</span></dt>
+        <dd>
+          <div *ngIf="product.productCategory">
+            <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">{{
+              product.productCategory?.productCategoryName
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/product', product.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

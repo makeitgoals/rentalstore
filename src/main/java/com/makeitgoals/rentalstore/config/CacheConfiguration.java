@@ -48,6 +48,24 @@ public class CacheConfiguration {
             createCache(cm, com.makeitgoals.rentalstore.domain.User.class.getName());
             createCache(cm, com.makeitgoals.rentalstore.domain.Authority.class.getName());
             createCache(cm, com.makeitgoals.rentalstore.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.makeitgoals.rentalstore.domain.Company.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.Customer.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.Customer.class.getName() + ".itemBalanceByCustomers");
+            createCache(cm, com.makeitgoals.rentalstore.domain.Customer.class.getName() + ".rentalOrders");
+            createCache(cm, com.makeitgoals.rentalstore.domain.Customer.class.getName() + ".bills");
+            createCache(cm, com.makeitgoals.rentalstore.domain.Customer.class.getName() + ".payments");
+            createCache(cm, com.makeitgoals.rentalstore.domain.Product.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.ProductCategory.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.RentalOrder.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.RentalOrder.class.getName() + ".billLineItems");
+            createCache(cm, com.makeitgoals.rentalstore.domain.RentalOrder.class.getName() + ".orderItems");
+            createCache(cm, com.makeitgoals.rentalstore.domain.OrderItem.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.OrderItem.class.getName() + ".itemBalanceByCustomers");
+            createCache(cm, com.makeitgoals.rentalstore.domain.ItemBalanceByCustomer.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.Bill.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.BillLineItem.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.BillLineItemToOrderItem.class.getName());
+            createCache(cm, com.makeitgoals.rentalstore.domain.Payment.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

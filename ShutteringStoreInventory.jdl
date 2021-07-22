@@ -1,0 +1,122 @@
+
+entity Company {
+	companyName String required,
+    dealsIn String required,
+    officeAddress String,
+    companyPhoneNumber String,
+    email String pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+}
+
+entity Customer {
+	customerName String required,
+    contactName String,
+    fatherName String,
+    ownerName String,
+    siteAddress String,
+    phoneNumber String,
+    email String pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity Product {
+	productName String required,
+	productDescription String,
+	productSize String required,
+	pricePerDay BigDecimal required min(0),
+    productImage ImageBlob
+}
+
+entity ProductCategory {
+    productCategoryName String required,
+    productCategoryDescription String
+}
+
+entity RentalOrder {
+    rentalIssueDate Instant,
+    rentalReturnDate Instant,
+    rentalOrderStatus OrderStatus required,
+    code String required
+}
+
+enum OrderStatus {
+    COMPLETED, PENDING, CANCELLED
+}
+
+entity OrderItem {
+    quantity Integer required min(0)
+}
+
+entity ItemBalanceByCustomer {
+	outstandingBalance Integer required min(0)
+}
+
+entity Bill {
+	code String required,
+    costBillNumber Integer,
+    billStatus BillStatus required,
+    billTotal BigDecimal required min(0),
+    taxPercent Long min(0),
+    billTotalWithTax BigDecimal min(0)
+}
+
+enum BillStatus {
+    PENDING, PAID, CANCELLED
+}
+
+entity BillLineItem {
+	details String,
+	fromDate Instant required,
+    toDate Instant required,
+    outstandingQuantity Integer required min(0),
+    lineAmount BigDecimal required min(0)
+}
+
+entity BillLineItemToOrderItem {
+	details String
+}
+
+entity Payment {
+	paymentAmount BigDecimal required min(0),
+    paymentDate Instant required,
+    paymentDetails String,
+    paymentMethod PaymentMethod required
+}
+
+enum PaymentMethod {
+    ACCOUNT, CASH
+}
+
+relationship ManyToOne {
+    Product{ProductCategory(productCategoryName)} to ProductCategory,
+    ItemBalanceByCustomer{product(productName)} to Product,
+    ItemBalanceByCustomer{orderItem} to OrderItem{itemBalanceByCustomer},
+    ItemBalanceByCustomer{customer(customerName)} to Customer{itemBalanceByCustomer},
+    BillLineItem{product(productName)} to Product,
+    BillLineItem{bill(code)} to Bill,
+    BillLineItem{rentalOrder(code)} to RentalOrder{billLineItem},
+    BillLineItemToOrderItem{orderItem} to OrderItem,
+    BillLineItemToOrderItem{rentalOrder} to RentalOrder,
+    BillLineItemToOrderItem{billLineItem} to BillLineItem,
+    OrderItem{rentalOrder(code)} to RentalOrder{orderItem},
+    OrderItem{product(productName)} to Product,
+    RentalOrder{customer(customerName)} to Customer{rentalOrder},
+    Bill{customer(customerName)} to Customer{bill},
+    Payment{customer(customerName)} to Customer{payment}
+}
+
+// Set pagination options
+paginate RentalOrder, Customer, Bill, Payment with infinite-scroll
+paginate Product, ItemBalanceByCustomer with pagination
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+
+filter Customer, Product, RentalOrder, Bill, Payment

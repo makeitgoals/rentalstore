@@ -1,0 +1,55 @@
+{
+  "name": "RentalOrder",
+  "fields": [
+    {
+      "fieldName": "rentalIssueDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "rentalReturnDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "rentalOrderStatus",
+      "fieldType": "OrderStatus",
+      "fieldValues": "COMPLETED,PENDING,CANCELLED",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "customer",
+      "otherEntityRelationshipName": "rentalOrder",
+      "relationshipName": "customer",
+      "otherEntityField": "customerName"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "billLineItem",
+      "otherEntityRelationshipName": "rentalOrder",
+      "relationshipName": "billLineItem"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "orderItem",
+      "otherEntityRelationshipName": "rentalOrder",
+      "relationshipName": "orderItem"
+    }
+  ],
+  "entityTableName": "rental_order",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085201"
+}

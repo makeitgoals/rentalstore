@@ -1,0 +1,125 @@
+<div>
+  <h2 id="page-heading" data-cy="ItemBalanceByCustomerHeading">
+    <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.home.title">Item Balance By Customers</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-item-balance-by-customer"
+        [routerLink]="['/item-balance-by-customer/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.home.createLabel"> Create a new Item Balance By Customer </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="itemBalanceByCustomers?.length === 0">
+    <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.home.notFound">No itemBalanceByCustomers found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="itemBalanceByCustomers && itemBalanceByCustomers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="outstandingBalance">
+            <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.outstandingBalance">Outstanding Balance</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="product.productName">
+            <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.product">Product</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="orderItem.id">
+            <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.orderItem">Order Item</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="customer.customerName">
+            <span jhiTranslate="rentalstoreApp.itemBalanceByCustomer.customer">Customer</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itemBalanceByCustomer of itemBalanceByCustomers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/item-balance-by-customer', itemBalanceByCustomer.id, 'view']">{{ itemBalanceByCustomer.id }}</a>
+          </td>
+          <td>{{ itemBalanceByCustomer.outstandingBalance }}</td>
+          <td>
+            <div *ngIf="itemBalanceByCustomer.product">
+              <a [routerLink]="['/product', itemBalanceByCustomer.product?.id, 'view']">{{ itemBalanceByCustomer.product?.productName }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="itemBalanceByCustomer.orderItem">
+              <a [routerLink]="['/order-item', itemBalanceByCustomer.orderItem?.id, 'view']">{{ itemBalanceByCustomer.orderItem?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="itemBalanceByCustomer.customer">
+              <a [routerLink]="['/customer', itemBalanceByCustomer.customer?.id, 'view']">{{
+                itemBalanceByCustomer.customer?.customerName
+              }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/item-balance-by-customer', itemBalanceByCustomer.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/item-balance-by-customer', itemBalanceByCustomer.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(itemBalanceByCustomer)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="itemBalanceByCustomers && itemBalanceByCustomers.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

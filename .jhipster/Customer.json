@@ -1,0 +1,72 @@
+{
+  "name": "Customer",
+  "fields": [
+    {
+      "fieldName": "customerName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contactName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fatherName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ownerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "siteAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "itemBalanceByCustomer",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "itemBalanceByCustomer"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "rentalOrder",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "rentalOrder"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "bill",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "bill"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "payment",
+      "otherEntityRelationshipName": "customer",
+      "relationshipName": "payment"
+    }
+  ],
+  "entityTableName": "customer",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210722085158"
+}

@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="billLineItem">
+      <h2 data-cy="billLineItemDetailsHeading"><span jhiTranslate="rentalstoreApp.billLineItem.detail.title">Bill Line Item</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ billLineItem.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.details">Details</span></dt>
+        <dd>
+          <span>{{ billLineItem.details }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.fromDate">From Date</span></dt>
+        <dd>
+          <span>{{ billLineItem.fromDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.toDate">To Date</span></dt>
+        <dd>
+          <span>{{ billLineItem.toDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.outstandingQuantity">Outstanding Quantity</span></dt>
+        <dd>
+          <span>{{ billLineItem.outstandingQuantity }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.lineAmount">Line Amount</span></dt>
+        <dd>
+          <span>{{ billLineItem.lineAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.product">Product</span></dt>
+        <dd>
+          <div *ngIf="billLineItem.product">
+            <a [routerLink]="['/product', billLineItem.product?.id, 'view']">{{ billLineItem.product?.productName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.bill">Bill</span></dt>
+        <dd>
+          <div *ngIf="billLineItem.bill">
+            <a [routerLink]="['/bill', billLineItem.bill?.id, 'view']">{{ billLineItem.bill?.code }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.billLineItem.rentalOrder">Rental Order</span></dt>
+        <dd>
+          <div *ngIf="billLineItem.rentalOrder">
+            <a [routerLink]="['/rental-order', billLineItem.rentalOrder?.id, 'view']">{{ billLineItem.rentalOrder?.code }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bill-line-item', billLineItem.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="company">
+      <h2 data-cy="companyDetailsHeading"><span jhiTranslate="rentalstoreApp.company.detail.title">Company</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ company.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.company.companyName">Company Name</span></dt>
+        <dd>
+          <span>{{ company.companyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.company.dealsIn">Deals In</span></dt>
+        <dd>
+          <span>{{ company.dealsIn }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.company.officeAddress">Office Address</span></dt>
+        <dd>
+          <span>{{ company.officeAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.company.companyPhoneNumber">Company Phone Number</span></dt>
+        <dd>
+          <span>{{ company.companyPhoneNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="rentalstoreApp.company.email">Email</span></dt>
+        <dd>
+          <span>{{ company.email }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/company', company.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

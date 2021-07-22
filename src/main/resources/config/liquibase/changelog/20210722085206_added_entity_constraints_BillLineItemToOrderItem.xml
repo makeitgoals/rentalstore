@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity BillLineItemToOrderItem.
+    -->
+    <changeSet id="20210722085206-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="order_item_id"
+                                 baseTableName="bill_line_item_to_order_item"
+                                 constraintName="fk_bill_line_item_to_order_item__order_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order_item"/>
+
+        <addForeignKeyConstraint baseColumnNames="rental_order_id"
+                                 baseTableName="bill_line_item_to_order_item"
+                                 constraintName="fk_bill_line_item_to_order_item__rental_order_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rental_order"/>
+
+        <addForeignKeyConstraint baseColumnNames="bill_line_item_id"
+                                 baseTableName="bill_line_item_to_order_item"
+                                 constraintName="fk_bill_line_item_to_order_item__bill_line_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bill_line_item"/>
+    </changeSet>
+</databaseChangeLog>
