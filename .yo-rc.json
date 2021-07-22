@@ -42,7 +42,7 @@
     "jwtSecretKey": "NzU5YjE5NGY0MzFmOTJmYzRiOGY2ZTZhOTZkZmViM2NiOWMxYWYzNTIyNWY5MDUwYmY3ZWQxOTA0YzI5YmQ4MDljYzgyMWYzNjk3NmI1N2FjMDM5M2VmN2EyMTEwODIzM2MwM2Q4N2E4YWQ5MGRlYWE3OWM5YzIzMmNhODUwZWY=",
     "devServerPort": 4200,
     "clientPackageManager": "npm",
-    "languages": ["en", "fr"],
+    "languages": ["en", "fr", "ta"],
     "entities": [
       "Company",
       "Customer",

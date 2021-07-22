@@ -1,0 +1,27 @@
+{
+  "rentalstoreApp": {
+    "itemBalanceByCustomer": {
+      "home": {
+        "title": "Item Balance By Customers",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Item Balance By Customer-ஐ உருவாக்கு",
+        "createOrEditLabel": "Item Balance By Customer -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Item Balance By Customers found"
+      },
+      "created": "Item Balance By Customer புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Item Balance By Customer மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Item Balance By Customer நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Item Balance By Customer {{ id }}?"
+      },
+      "detail": {
+        "title": "Item Balance By Customer"
+      },
+      "id": "ID",
+      "outstandingBalance": "Outstanding Balance",
+      "product": "Product",
+      "orderItem": "Order Item",
+      "customer": "Customer"
+    }
+  }
+}

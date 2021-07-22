@@ -1,0 +1,28 @@
+{
+  "rentalstoreApp": {
+    "payment": {
+      "home": {
+        "title": "Payments",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Payment-ஐ உருவாக்கு",
+        "createOrEditLabel": "Payment -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Payments found"
+      },
+      "created": "Payment புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Payment மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Payment நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Payment {{ id }}?"
+      },
+      "detail": {
+        "title": "Payment"
+      },
+      "id": "ID",
+      "paymentAmount": "Payment Amount",
+      "paymentDate": "Payment Date",
+      "paymentDetails": "Payment Details",
+      "paymentMethod": "Payment Method",
+      "customer": "Customer"
+    }
+  }
+}

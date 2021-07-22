@@ -1,0 +1,30 @@
+{
+  "rentalstoreApp": {
+    "rentalOrder": {
+      "home": {
+        "title": "Rental Orders",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Rental Order-ஐ உருவாக்கு",
+        "createOrEditLabel": "Rental Order -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Rental Orders found"
+      },
+      "created": "Rental Order புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Rental Order மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Rental Order நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Rental Order {{ id }}?"
+      },
+      "detail": {
+        "title": "Rental Order"
+      },
+      "id": "ID",
+      "rentalIssueDate": "Rental Issue Date",
+      "rentalReturnDate": "Rental Return Date",
+      "rentalOrderStatus": "Rental Order Status",
+      "code": "Code",
+      "customer": "Customer",
+      "billLineItem": "Bill Line Item",
+      "orderItem": "Order Item"
+    }
+  }
+}

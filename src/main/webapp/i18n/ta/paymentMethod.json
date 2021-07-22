@@ -1,0 +1,9 @@
+{
+  "rentalstoreApp": {
+    "PaymentMethod": {
+      "null": "",
+      "ACCOUNT": "ACCOUNT",
+      "CASH": "CASH"
+    }
+  }
+}
