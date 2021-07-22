@@ -1,13 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="ProductHeading">
     <span jhiTranslate="rentalstoreApp.product.home.title">Products</span>
-
     <div class="d-flex justify-content-end">
       <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="rentalstoreApp.product.home.refreshListLabel">Refresh List</span>
       </button>
-
       <button
         id="jh-create-entity"
         data-cy="entityCreateButton"
@@ -20,6 +18,11 @@
     </div>
   </h2>
 
+  <div class="mb-2 d-flex justify-content-start align-items-center">
+    <span class="mx-2 col-2">Filter by name</span>
+    <input type="search" class="form-control" [(ngModel)]="filter" (keyup)="loadPage()" />
+  </div>
+
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
@@ -28,70 +31,71 @@
     <span jhiTranslate="rentalstoreApp.product.home.notFound">No products found</span>
   </div>
 
-  <div class="table-responsive" id="entities" *ngIf="products && products.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="productName">
-            <span jhiTranslate="rentalstoreApp.product.productName">Product Name</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="productDescription">
-            <span jhiTranslate="rentalstoreApp.product.productDescription">Product Description</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="productSize">
-            <span jhiTranslate="rentalstoreApp.product.productSize">Product Size</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="pricePerDay">
-            <span jhiTranslate="rentalstoreApp.product.pricePerDay">Price Per Day</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="productImage">
-            <span jhiTranslate="rentalstoreApp.product.productImage">Product Image</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="productCategory.productCategoryName">
-            <span jhiTranslate="rentalstoreApp.product.productCategory">Product Category</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/product', product.id, 'view']">{{ product.id }}</a>
-          </td>
-          <td>{{ product.productName }}</td>
-          <td>{{ product.productDescription }}</td>
-          <td>{{ product.productSize }}</td>
-          <td>{{ product.pricePerDay }}</td>
-          <td>
+  <div *ngIf="products && products.length > 0">
+    <div class="mb-2 d-flex justify-content-end align-items-center">
+      <span class="mx-2 col-1">Sort by</span>
+      <div class="btn-group" role="group" jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+        <button type="button" class="btn btn-light" jhiSortBy="productName">
+          <span class="d-flex">
+            <span jhiTranslate="rentalstoreApp.product.productName">Product Name</span>&nbsp;
+            <fa-icon [icon]="'sort'"></fa-icon>
+          </span>
+        </button>
+        <button type="button" class="btn btn-light" jhiSortBy="pricePerDay">
+          <span class="d-flex">
+            <span jhiTranslate="rentalstoreApp.product.pricePerDay">Price Per Day</span>&nbsp;
+            <fa-icon [icon]="'sort'"></fa-icon>
+          </span>
+        </button>
+        <button type="button" class="btn btn-light" jhiSortBy="productSize">
+          <span class="d-flex">
+            <span jhiTranslate="rentalstoreApp.product.productSize">Product Size</span>&nbsp;
+            <fa-icon [icon]="'sort'"></fa-icon>
+          </span>
+        </button>
+        <button type="button" class="btn btn-light" jhiSortBy="productCategory.productCategoryName">
+          <span class="d-flex">
+            <span jhiTranslate="rentalstoreApp.product.productCategory">Product Category</span>&nbsp;
+            <fa-icon [icon]="'sort'"></fa-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list-group">
+      <a class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let product of products; trackBy: trackId">
+        <div class="row">
+          <div class="col-2 col-xs-12 justify-content-center">
             <a *ngIf="product.productImage" (click)="openFile(product.productImage, product.productImageContentType)">
               <img
                 [src]="'data:' + product.productImageContentType + ';base64,' + product.productImage"
-                style="max-height: 30px"
+                style="max-height: 150px"
                 alt="product image"
               />
             </a>
-            <span *ngIf="product.productImage">{{ product.productImageContentType }}, {{ byteSize(product.productImage) }}</span>
-          </td>
-          <td>
-            <div *ngIf="product.productCategory">
-              <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">{{
-                product.productCategory?.productCategoryName
-              }}</a>
+            <!--            <span *ngIf="product.productImage">{{ product.productImageContentType }}, {{ byteSize(product.productImage) }}</span>-->
+          </div>
+          <div class="col col-xs-12">
+            <div class="d-flex w-100 justify-content-between">
+              <a [routerLink]="['/product', product.id, 'view']">
+                <h5 class="mb-1">{{ product.productName }}</h5>
+              </a>
+              <small *ngIf="product.productCategory">
+                <a [routerLink]="['/product-category', product.productCategory?.id, 'view']">
+                  Category: {{ product.productCategory?.productCategoryName }}
+                </a>
+              </small>
             </div>
-          </td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/product', product.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
 
+            <small class="mb-1">{{ product.productDescription }}</small>
+            <p class="mb-1">Size: {{ product.productSize }}</p>
+            <small>
+              Price Per Day:
+              <span>
+                {{ product.pricePerDay | currency: 'USD' }}
+              </span>
+            </small>
+            <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
               <button
                 type="submit"
                 [routerLink]="['/product', product.id, 'edit']"
@@ -107,10 +111,10 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
               </button>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </div>
+      </a>
+    </div>
   </div>
 
   <div *ngIf="products && products.length > 0">
