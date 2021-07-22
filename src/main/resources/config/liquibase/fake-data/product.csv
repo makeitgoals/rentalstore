@@ -1,11 +1,11 @@
-id;product_name;product_description;product_size;price_per_day;product_image;product_image_content_type
-1;Steel;Assistant;cross-platform Principal;35091;../fake-data/blob/hipster.png;image/png
-2;wireless Handmade;Dynamic Pound withdrawal;deposit Centers Metal;83023;../fake-data/blob/hipster.png;image/png
-3;Metical Incredible;Union compressing;initiative Generic;32770;../fake-data/blob/hipster.png;image/png
-4;Drive Australian;Business-focused;Rubber;95238;../fake-data/blob/hipster.png;image/png
-5;orange Practical;Identity Dynamic Sports;Mexico yellow Cape;27546;../fake-data/blob/hipster.png;image/png
-6;homogeneous Crossroad;Chips De-engineered Tunnel;Intelligent;88292;../fake-data/blob/hipster.png;image/png
-7;Checking Account Renminbi;Consultant online;project hacking efficient;50702;../fake-data/blob/hipster.png;image/png
-8;Security AGP lavender;navigate brand up;systems Gorgeous;6953;../fake-data/blob/hipster.png;image/png
-9;Ergonomic relationships back-end;solution Zimbabwe Games;Account transmit Incredible;88593;../fake-data/blob/hipster.png;image/png
-10;Global Industrial Concrete;Pants bypassing Chief;Tuvalu;80985;../fake-data/blob/hipster.png;image/png
+id;product_name;product_description;product_size;price_per_day;product_image;product_image_content_type;product_category_id
+1;Steel;Assistant;cross-platform Principal;35091;../fake-data/blob/hipster.png;image/png;1
+2;wireless Handmade;Dynamic Pound withdrawal;deposit Centers Metal;83023;../fake-data/blob/hipster.png;image/png;2
+3;Metical Incredible;Union compressing;initiative Generic;32770;../fake-data/blob/hipster.png;image/png;3
+4;Drive Australian;Business-focused;Rubber;95238;../fake-data/blob/hipster.png;image/png;4
+5;orange Practical;Identity Dynamic Sports;Mexico yellow Cape;27546;../fake-data/blob/hipster.png;image/png;5
+6;homogeneous Crossroad;Chips De-engineered Tunnel;Intelligent;88292;../fake-data/blob/hipster.png;image/png;6
+7;Checking Account Renminbi;Consultant online;project hacking efficient;50702;../fake-data/blob/hipster.png;image/png;7
+8;Security AGP lavender;navigate brand up;systems Gorgeous;6953;../fake-data/blob/hipster.png;image/png;8
+9;Ergonomic relationships back-end;solution Zimbabwe Games;Account transmit Incredible;88593;../fake-data/blob/hipster.png;image/png;9
+10;Global Industrial Concrete;Pants bypassing Chief;Tuvalu;80985;../fake-data/blob/hipster.png;image/png;10

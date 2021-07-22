@@ -66,7 +66,7 @@
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.itemBalanceByCustomer.product" for="field_product">Product</label>
           <select class="form-control" id="field_product" data-cy="product" name="product" formControlName="product">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('product')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="productOption.id === editForm.get('product')!.value?.id ? editForm.get('product')!.value : productOption"
               *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
@@ -75,13 +75,22 @@
             </option>
           </select>
         </div>
+        <div *ngIf="editForm.get(['product'])!.invalid && (editForm.get(['product'])!.dirty || editForm.get(['product'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['product'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.itemBalanceByCustomer.orderItem" for="field_orderItem"
             >Order Item</label
           >
           <select class="form-control" id="field_orderItem" data-cy="orderItem" name="orderItem" formControlName="orderItem">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('orderItem')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="orderItemOption.id === editForm.get('orderItem')!.value?.id ? editForm.get('orderItem')!.value : orderItemOption"
               *ngFor="let orderItemOption of orderItemsSharedCollection; trackBy: trackOrderItemById"
@@ -90,13 +99,22 @@
             </option>
           </select>
         </div>
+        <div *ngIf="editForm.get(['orderItem'])!.invalid && (editForm.get(['orderItem'])!.dirty || editForm.get(['orderItem'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['orderItem'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.itemBalanceByCustomer.customer" for="field_customer"
             >Customer</label
           >
           <select class="form-control" id="field_customer" data-cy="customer" name="customer" formControlName="customer">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('customer')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="customerOption.id === editForm.get('customer')!.value?.id ? editForm.get('customer')!.value : customerOption"
               *ngFor="let customerOption of customersSharedCollection; trackBy: trackCustomerById"
@@ -104,6 +122,15 @@
               {{ customerOption.customerName }}
             </option>
           </select>
+        </div>
+        <div *ngIf="editForm.get(['customer'])!.invalid && (editForm.get(['customer'])!.dirty || editForm.get(['customer'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['customer'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
         </div>
       </div>
 

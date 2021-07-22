@@ -3,6 +3,7 @@ package com.makeitgoals.rentalstore.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,15 +25,18 @@ public class BillLineItemToOrderItem implements Serializable {
     @Column(name = "details")
     private String details;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "rentalOrder", "product", "itemBalanceByCustomers" }, allowSetters = true)
     private OrderItem orderItem;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "customer", "billLineItems", "orderItems" }, allowSetters = true)
     private RentalOrder rentalOrder;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "product", "bill", "rentalOrder" }, allowSetters = true)
     private BillLineItem billLineItem;
 

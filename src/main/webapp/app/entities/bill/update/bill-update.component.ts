@@ -27,7 +27,7 @@ export class BillUpdateComponent implements OnInit {
     billTotal: [null, [Validators.required, Validators.min(0)]],
     taxPercent: [null, [Validators.min(0)]],
     billTotalWithTax: [null, [Validators.min(0)]],
-    customer: [],
+    customer: [null, Validators.required],
   });
 
   constructor(

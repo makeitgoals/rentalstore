@@ -8,7 +8,7 @@ export interface IPayment {
   paymentDate?: dayjs.Dayjs;
   paymentDetails?: string | null;
   paymentMethod?: PaymentMethod;
-  customer?: ICustomer | null;
+  customer?: ICustomer;
 }
 
 export class Payment implements IPayment {
@@ -18,7 +18,7 @@ export class Payment implements IPayment {
     public paymentDate?: dayjs.Dayjs,
     public paymentDetails?: string | null,
     public paymentMethod?: PaymentMethod,
-    public customer?: ICustomer | null
+    public customer?: ICustomer
   ) {}
 }
 

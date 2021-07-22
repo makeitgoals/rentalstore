@@ -28,7 +28,7 @@ export class PaymentUpdateComponent implements OnInit {
     paymentDate: [null, [Validators.required]],
     paymentDetails: [],
     paymentMethod: [null, [Validators.required]],
-    customer: [],
+    customer: [null, Validators.required],
   });
 
   constructor(

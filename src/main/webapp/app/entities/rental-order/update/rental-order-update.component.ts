@@ -28,7 +28,7 @@ export class RentalOrderUpdateComponent implements OnInit {
     rentalReturnDate: [],
     rentalOrderStatus: [null, [Validators.required]],
     code: [null, [Validators.required]],
-    customer: [],
+    customer: [null, Validators.required],
   });
 
   constructor(

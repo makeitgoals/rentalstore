@@ -26,6 +26,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "customer",
       "otherEntityRelationshipName": "rentalOrder",
+      "relationshipValidateRules": "required",
       "relationshipName": "customer",
       "otherEntityField": "customerName"
     },

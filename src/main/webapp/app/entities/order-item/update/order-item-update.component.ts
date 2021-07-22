@@ -25,8 +25,8 @@ export class OrderItemUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     quantity: [null, [Validators.required, Validators.min(0)]],
-    rentalOrder: [],
-    product: [],
+    rentalOrder: [null, Validators.required],
+    product: [null, Validators.required],
   });
 
   constructor(

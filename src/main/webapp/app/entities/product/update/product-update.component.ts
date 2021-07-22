@@ -30,7 +30,7 @@ export class ProductUpdateComponent implements OnInit {
     pricePerDay: [null, [Validators.required, Validators.min(0)]],
     productImage: [],
     productImageContentType: [],
-    productCategory: [],
+    productCategory: [null, Validators.required],
   });
 
   constructor(

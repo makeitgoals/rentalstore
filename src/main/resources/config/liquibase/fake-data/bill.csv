@@ -1,11 +1,11 @@
-id;code;cost_bill_number;bill_status;bill_total;tax_percent;bill_total_with_tax
-1;Georgia;9945;PAID;67952;50713;39769
-2;Brazil teal;99766;PENDING;51162;18094;4038
-3;function Towels;75064;PAID;30310;30931;64690
-4;Car Pizza;51068;CANCELLED;79103;46333;10853
-5;project Fish;99243;CANCELLED;1078;63878;27358
-6;Sausages withdrawal;76812;CANCELLED;87887;81613;55577
-7;recontextualize;14873;CANCELLED;74393;71131;17040
-8;invoice Producer Guinea;15677;CANCELLED;6690;83341;45084
-9;Costa maroon;5453;PAID;90114;44775;21313
-10;Sudanese cross-media global;31494;CANCELLED;60507;29451;23943
+id;code;cost_bill_number;bill_status;bill_total;tax_percent;bill_total_with_tax;customer_id
+1;Georgia;9945;PAID;67952;50713;39769;1
+2;Brazil teal;99766;PENDING;51162;18094;4038;2
+3;function Towels;75064;PAID;30310;30931;64690;3
+4;Car Pizza;51068;CANCELLED;79103;46333;10853;4
+5;project Fish;99243;CANCELLED;1078;63878;27358;5
+6;Sausages withdrawal;76812;CANCELLED;87887;81613;55577;6
+7;recontextualize;14873;CANCELLED;74393;71131;17040;7
+8;invoice Producer Guinea;15677;CANCELLED;6690;83341;45084;8
+9;Costa maroon;5453;PAID;90114;44775;21313;9
+10;Sudanese cross-media global;31494;CANCELLED;60507;29451;23943;10

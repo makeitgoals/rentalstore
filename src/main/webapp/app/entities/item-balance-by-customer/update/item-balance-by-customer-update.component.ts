@@ -28,9 +28,9 @@ export class ItemBalanceByCustomerUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     outstandingBalance: [null, [Validators.required, Validators.min(0)]],
-    product: [],
-    orderItem: [],
-    customer: [],
+    product: [null, Validators.required],
+    orderItem: [null, Validators.required],
+    customer: [null, Validators.required],
   });
 
   constructor(

@@ -162,7 +162,7 @@
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.product" for="field_product">Product</label>
           <select class="form-control" id="field_product" data-cy="product" name="product" formControlName="product">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('product')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="productOption.id === editForm.get('product')!.value?.id ? editForm.get('product')!.value : productOption"
               *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
@@ -171,11 +171,20 @@
             </option>
           </select>
         </div>
+        <div *ngIf="editForm.get(['product'])!.invalid && (editForm.get(['product'])!.dirty || editForm.get(['product'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['product'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.bill" for="field_bill">Bill</label>
           <select class="form-control" id="field_bill" data-cy="bill" name="bill" formControlName="bill">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('bill')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="billOption.id === editForm.get('bill')!.value?.id ? editForm.get('bill')!.value : billOption"
               *ngFor="let billOption of billsSharedCollection; trackBy: trackBillById"
@@ -184,13 +193,18 @@
             </option>
           </select>
         </div>
+        <div *ngIf="editForm.get(['bill'])!.invalid && (editForm.get(['bill'])!.dirty || editForm.get(['bill'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['bill'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="rentalstoreApp.billLineItem.rentalOrder" for="field_rentalOrder"
             >Rental Order</label
           >
           <select class="form-control" id="field_rentalOrder" data-cy="rentalOrder" name="rentalOrder" formControlName="rentalOrder">
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('rentalOrder')!.value" [ngValue]="null" selected></option>
             <option
               [ngValue]="
                 rentalOrderOption.id === editForm.get('rentalOrder')!.value?.id ? editForm.get('rentalOrder')!.value : rentalOrderOption
@@ -200,6 +214,17 @@
               {{ rentalOrderOption.code }}
             </option>
           </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['rentalOrder'])!.invalid && (editForm.get(['rentalOrder'])!.dirty || editForm.get(['rentalOrder'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['rentalOrder'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
         </div>
       </div>
 

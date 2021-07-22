@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.makeitgoals.rentalstore.IntegrationTest;
 import com.makeitgoals.rentalstore.domain.OrderItem;
+import com.makeitgoals.rentalstore.domain.Product;
+import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.OrderItemRepository;
 import com.makeitgoals.rentalstore.service.dto.OrderItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.OrderItemMapper;
@@ -62,6 +64,26 @@ class OrderItemResourceIT {
      */
     public static OrderItem createEntity(EntityManager em) {
         OrderItem orderItem = new OrderItem().quantity(DEFAULT_QUANTITY);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        orderItem.setRentalOrder(rentalOrder);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        orderItem.setProduct(product);
         return orderItem;
     }
 
@@ -73,6 +95,26 @@ class OrderItemResourceIT {
      */
     public static OrderItem createUpdatedEntity(EntityManager em) {
         OrderItem orderItem = new OrderItem().quantity(UPDATED_QUANTITY);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createUpdatedEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        orderItem.setRentalOrder(rentalOrder);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createUpdatedEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        orderItem.setProduct(product);
         return orderItem;
     }
 

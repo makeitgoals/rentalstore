@@ -45,15 +45,18 @@ public class BillLineItem implements Serializable {
     @Column(name = "line_amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal lineAmount;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "customer" }, allowSetters = true)
     private Bill bill;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "customer", "billLineItems", "orderItems" }, allowSetters = true)
     private RentalOrder rentalOrder;
 

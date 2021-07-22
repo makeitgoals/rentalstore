@@ -35,9 +35,9 @@ export class BillLineItemUpdateComponent implements OnInit {
     toDate: [null, [Validators.required]],
     outstandingQuantity: [null, [Validators.required, Validators.min(0)]],
     lineAmount: [null, [Validators.required, Validators.min(0)]],
-    product: [],
-    bill: [],
-    rentalOrder: [],
+    product: [null, Validators.required],
+    bill: [null, Validators.required],
+    rentalOrder: [null, Validators.required],
   });
 
   constructor(

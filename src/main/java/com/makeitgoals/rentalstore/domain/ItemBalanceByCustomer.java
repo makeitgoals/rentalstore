@@ -27,15 +27,18 @@ public class ItemBalanceByCustomer implements Serializable {
     @Column(name = "outstanding_balance", nullable = false)
     private Integer outstandingBalance;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "productCategory" }, allowSetters = true)
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "rentalOrder", "product", "itemBalanceByCustomers" }, allowSetters = true)
     private OrderItem orderItem;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "itemBalanceByCustomers", "rentalOrders", "bills", "payments" }, allowSetters = true)
     private Customer customer;
 

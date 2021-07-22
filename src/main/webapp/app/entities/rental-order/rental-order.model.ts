@@ -10,7 +10,7 @@ export interface IRentalOrder {
   rentalReturnDate?: dayjs.Dayjs | null;
   rentalOrderStatus?: OrderStatus;
   code?: string;
-  customer?: ICustomer | null;
+  customer?: ICustomer;
   billLineItems?: IBillLineItem[] | null;
   orderItems?: IOrderItem[] | null;
 }
@@ -22,7 +22,7 @@ export class RentalOrder implements IRentalOrder {
     public rentalReturnDate?: dayjs.Dayjs | null,
     public rentalOrderStatus?: OrderStatus,
     public code?: string,
-    public customer?: ICustomer | null,
+    public customer?: ICustomer,
     public billLineItems?: IBillLineItem[] | null,
     public orderItems?: IOrderItem[] | null
   ) {}

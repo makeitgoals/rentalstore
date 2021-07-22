@@ -8,7 +8,7 @@ export interface IProduct {
   pricePerDay?: number;
   productImageContentType?: string | null;
   productImage?: string | null;
-  productCategory?: IProductCategory | null;
+  productCategory?: IProductCategory;
 }
 
 export class Product implements IProduct {
@@ -20,7 +20,7 @@ export class Product implements IProduct {
     public pricePerDay?: number,
     public productImageContentType?: string | null,
     public productImage?: string | null,
-    public productCategory?: IProductCategory | null
+    public productCategory?: IProductCategory
   ) {}
 }
 

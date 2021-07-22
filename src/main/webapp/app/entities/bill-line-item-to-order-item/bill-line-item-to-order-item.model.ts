@@ -5,18 +5,18 @@ import { IBillLineItem } from 'app/entities/bill-line-item/bill-line-item.model'
 export interface IBillLineItemToOrderItem {
   id?: number;
   details?: string | null;
-  orderItem?: IOrderItem | null;
-  rentalOrder?: IRentalOrder | null;
-  billLineItem?: IBillLineItem | null;
+  orderItem?: IOrderItem;
+  rentalOrder?: IRentalOrder;
+  billLineItem?: IBillLineItem;
 }
 
 export class BillLineItemToOrderItem implements IBillLineItemToOrderItem {
   constructor(
     public id?: number,
     public details?: string | null,
-    public orderItem?: IOrderItem | null,
-    public rentalOrder?: IRentalOrder | null,
-    public billLineItem?: IBillLineItem | null
+    public orderItem?: IOrderItem,
+    public rentalOrder?: IRentalOrder,
+    public billLineItem?: IBillLineItem
   ) {}
 }
 

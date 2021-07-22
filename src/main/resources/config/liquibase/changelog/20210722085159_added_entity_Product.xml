@@ -33,7 +33,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="product_category_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -61,6 +61,7 @@
             <column name="price_per_day" type="numeric"/>
             <column name="product_image" type="blob"/>
             <column name="product_image_content_type" type="string"/>
+            <column name="product_category_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

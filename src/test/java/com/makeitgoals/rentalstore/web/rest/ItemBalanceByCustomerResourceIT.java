@@ -6,7 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.makeitgoals.rentalstore.IntegrationTest;
+import com.makeitgoals.rentalstore.domain.Customer;
 import com.makeitgoals.rentalstore.domain.ItemBalanceByCustomer;
+import com.makeitgoals.rentalstore.domain.OrderItem;
+import com.makeitgoals.rentalstore.domain.Product;
 import com.makeitgoals.rentalstore.repository.ItemBalanceByCustomerRepository;
 import com.makeitgoals.rentalstore.service.dto.ItemBalanceByCustomerDTO;
 import com.makeitgoals.rentalstore.service.mapper.ItemBalanceByCustomerMapper;
@@ -62,6 +65,36 @@ class ItemBalanceByCustomerResourceIT {
      */
     public static ItemBalanceByCustomer createEntity(EntityManager em) {
         ItemBalanceByCustomer itemBalanceByCustomer = new ItemBalanceByCustomer().outstandingBalance(DEFAULT_OUTSTANDING_BALANCE);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        itemBalanceByCustomer.setProduct(product);
+        // Add required entity
+        OrderItem orderItem;
+        if (TestUtil.findAll(em, OrderItem.class).isEmpty()) {
+            orderItem = OrderItemResourceIT.createEntity(em);
+            em.persist(orderItem);
+            em.flush();
+        } else {
+            orderItem = TestUtil.findAll(em, OrderItem.class).get(0);
+        }
+        itemBalanceByCustomer.setOrderItem(orderItem);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        itemBalanceByCustomer.setCustomer(customer);
         return itemBalanceByCustomer;
     }
 
@@ -73,6 +106,36 @@ class ItemBalanceByCustomerResourceIT {
      */
     public static ItemBalanceByCustomer createUpdatedEntity(EntityManager em) {
         ItemBalanceByCustomer itemBalanceByCustomer = new ItemBalanceByCustomer().outstandingBalance(UPDATED_OUTSTANDING_BALANCE);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createUpdatedEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        itemBalanceByCustomer.setProduct(product);
+        // Add required entity
+        OrderItem orderItem;
+        if (TestUtil.findAll(em, OrderItem.class).isEmpty()) {
+            orderItem = OrderItemResourceIT.createUpdatedEntity(em);
+            em.persist(orderItem);
+            em.flush();
+        } else {
+            orderItem = TestUtil.findAll(em, OrderItem.class).get(0);
+        }
+        itemBalanceByCustomer.setOrderItem(orderItem);
+        // Add required entity
+        Customer customer;
+        if (TestUtil.findAll(em, Customer.class).isEmpty()) {
+            customer = CustomerResourceIT.createUpdatedEntity(em);
+            em.persist(customer);
+            em.flush();
+        } else {
+            customer = TestUtil.findAll(em, Customer.class).get(0);
+        }
+        itemBalanceByCustomer.setCustomer(customer);
         return itemBalanceByCustomer;
     }
 

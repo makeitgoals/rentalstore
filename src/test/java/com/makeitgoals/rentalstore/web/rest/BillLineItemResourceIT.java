@@ -7,7 +7,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.makeitgoals.rentalstore.IntegrationTest;
+import com.makeitgoals.rentalstore.domain.Bill;
 import com.makeitgoals.rentalstore.domain.BillLineItem;
+import com.makeitgoals.rentalstore.domain.Product;
+import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.BillLineItemRepository;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.BillLineItemMapper;
@@ -83,6 +86,36 @@ class BillLineItemResourceIT {
             .toDate(DEFAULT_TO_DATE)
             .outstandingQuantity(DEFAULT_OUTSTANDING_QUANTITY)
             .lineAmount(DEFAULT_LINE_AMOUNT);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        billLineItem.setProduct(product);
+        // Add required entity
+        Bill bill;
+        if (TestUtil.findAll(em, Bill.class).isEmpty()) {
+            bill = BillResourceIT.createEntity(em);
+            em.persist(bill);
+            em.flush();
+        } else {
+            bill = TestUtil.findAll(em, Bill.class).get(0);
+        }
+        billLineItem.setBill(bill);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        billLineItem.setRentalOrder(rentalOrder);
         return billLineItem;
     }
 
@@ -99,6 +132,36 @@ class BillLineItemResourceIT {
             .toDate(UPDATED_TO_DATE)
             .outstandingQuantity(UPDATED_OUTSTANDING_QUANTITY)
             .lineAmount(UPDATED_LINE_AMOUNT);
+        // Add required entity
+        Product product;
+        if (TestUtil.findAll(em, Product.class).isEmpty()) {
+            product = ProductResourceIT.createUpdatedEntity(em);
+            em.persist(product);
+            em.flush();
+        } else {
+            product = TestUtil.findAll(em, Product.class).get(0);
+        }
+        billLineItem.setProduct(product);
+        // Add required entity
+        Bill bill;
+        if (TestUtil.findAll(em, Bill.class).isEmpty()) {
+            bill = BillResourceIT.createUpdatedEntity(em);
+            em.persist(bill);
+            em.flush();
+        } else {
+            bill = TestUtil.findAll(em, Bill.class).get(0);
+        }
+        billLineItem.setBill(bill);
+        // Add required entity
+        RentalOrder rentalOrder;
+        if (TestUtil.findAll(em, RentalOrder.class).isEmpty()) {
+            rentalOrder = RentalOrderResourceIT.createUpdatedEntity(em);
+            em.persist(rentalOrder);
+            em.flush();
+        } else {
+            rentalOrder = TestUtil.findAll(em, RentalOrder.class).get(0);
+        }
+        billLineItem.setRentalOrder(rentalOrder);
         return billLineItem;
     }
 

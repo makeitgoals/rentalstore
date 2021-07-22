@@ -5,8 +5,8 @@ import { IItemBalanceByCustomer } from 'app/entities/item-balance-by-customer/it
 export interface IOrderItem {
   id?: number;
   quantity?: number;
-  rentalOrder?: IRentalOrder | null;
-  product?: IProduct | null;
+  rentalOrder?: IRentalOrder;
+  product?: IProduct;
   itemBalanceByCustomers?: IItemBalanceByCustomer[] | null;
 }
 
@@ -14,8 +14,8 @@ export class OrderItem implements IOrderItem {
   constructor(
     public id?: number,
     public quantity?: number,
-    public rentalOrder?: IRentalOrder | null,
-    public product?: IProduct | null,
+    public rentalOrder?: IRentalOrder,
+    public product?: IProduct,
     public itemBalanceByCustomers?: IItemBalanceByCustomer[] | null
   ) {}
 }

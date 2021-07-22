@@ -2,6 +2,7 @@ package com.makeitgoals.rentalstore.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.makeitgoals.rentalstore.domain.BillLineItemToOrderItem} entity.
