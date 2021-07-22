@@ -1,0 +1,30 @@
+{
+  "rentalstoreApp": {
+    "bill": {
+      "home": {
+        "title": "Bills",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Bill-ஐ உருவாக்கு",
+        "createOrEditLabel": "Bill -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Bills found"
+      },
+      "created": "Bill புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Bill மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Bill நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Bill {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill"
+      },
+      "id": "ID",
+      "code": "Code",
+      "costBillNumber": "Cost Bill Number",
+      "billStatus": "Bill Status",
+      "billTotal": "Bill Total",
+      "taxPercent": "Tax Percent",
+      "billTotalWithTax": "Bill Total With Tax",
+      "customer": "Customer"
+    }
+  }
+}

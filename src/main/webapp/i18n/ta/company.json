@@ -1,0 +1,28 @@
+{
+  "rentalstoreApp": {
+    "company": {
+      "home": {
+        "title": "Companies",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Company-ஐ உருவாக்கு",
+        "createOrEditLabel": "Company -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Companies found"
+      },
+      "created": "Company புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Company மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Company நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Company {{ id }}?"
+      },
+      "detail": {
+        "title": "Company"
+      },
+      "id": "ID",
+      "companyName": "Company Name",
+      "dealsIn": "Deals In",
+      "officeAddress": "Office Address",
+      "companyPhoneNumber": "Company Phone Number",
+      "email": "Email"
+    }
+  }
+}

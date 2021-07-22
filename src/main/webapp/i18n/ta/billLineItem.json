@@ -1,0 +1,31 @@
+{
+  "rentalstoreApp": {
+    "billLineItem": {
+      "home": {
+        "title": "Bill Line Items",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Bill Line Item-ஐ உருவாக்கு",
+        "createOrEditLabel": "Bill Line Item -ஐ மாற்று (அ) உருவாக்கு",
+        "notFound": "No Bill Line Items found"
+      },
+      "created": "Bill Line Item புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Bill Line Item மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Bill Line Item நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Bill Line Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Bill Line Item"
+      },
+      "id": "ID",
+      "details": "Details",
+      "fromDate": "From Date",
+      "toDate": "To Date",
+      "outstandingQuantity": "Outstanding Quantity",
+      "lineAmount": "Line Amount",
+      "product": "Product",
+      "bill": "Bill",
+      "rentalOrder": "Rental Order"
+    }
+  }
+}
