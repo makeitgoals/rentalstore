@@ -42,7 +42,7 @@
           </span>
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="company"
@@ -54,7 +54,7 @@
               <span jhiTranslate="global.menu.entities.company">Company</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="customer"
@@ -66,7 +66,7 @@
               <span jhiTranslate="global.menu.entities.customer">Customer</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="product"
@@ -78,7 +78,7 @@
               <span jhiTranslate="global.menu.entities.product">Product</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="product-category"
@@ -126,7 +126,7 @@
               <span jhiTranslate="global.menu.entities.itemBalanceByCustomer">Item Balance By Customer</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="bill"
@@ -138,7 +138,7 @@
               <span jhiTranslate="global.menu.entities.bill">Bill</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="bill-line-item"
@@ -150,7 +150,7 @@
               <span jhiTranslate="global.menu.entities.billLineItem">Bill Line Item</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="bill-line-item-to-order-item"
@@ -162,7 +162,7 @@
               <span jhiTranslate="global.menu.entities.billLineItemToOrderItem">Bill Line Item To Order Item</span>
             </a>
           </li>
-          <li>
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <a
               class="dropdown-item"
               routerLink="payment"
@@ -175,6 +175,18 @@
             </a>
           </li>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+          <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <a
+              class="dropdown-item"
+              routerLink="scheduler"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span>Scheduler</span>
+            </a>
+          </li>
         </ul>
       </li>
       <li
