@@ -61,6 +61,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./payment/payment.module').then(m => m.PaymentModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+      {
+        path: 'scheduler',
+        data: { pageTitle: 'rentalstoreApp.scheduler.home.title' },
+        loadChildren: () => import('../scheduler/scheduler.module').then(m => m.SchedulerModule),
+      },
     ]),
   ],
 })
