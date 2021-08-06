@@ -1,1 +1,43 @@
-<ejs-schedule width="100%" height="550px" [selectedDate]="selectedDate" [eventSettings]="eventSettings"></ejs-schedule>
+<ejs-schedule
+  #scheduleObj
+  width="100%"
+  height="550px"
+  [selectedDate]="selectedDate"
+  [eventSettings]="eventSettings"
+  [enableAllDayScroll]="enableAllDayScroll"
+  (renderCell)="OnRenderCell($event)"
+  (eventRendered)="oneventRendered($event)"
+  cssClass="schedule-event-template"
+  [(currentView)]="currentView"
+>
+  <ng-template #cellTemplate let-data>
+    <div class="templatewrap" [innerHTML]="getCellContent(data.date)"></div>
+  </ng-template>
+  <ng-template #dateHeaderTemplate let-data>
+    <div class="date-text">{{ getDateHeaderText(data.date) }}</div>
+    <div [innerHTML]="getWeatherImage(data.date)"></div>
+  </ng-template>
+  <e-views>
+    <e-view option="Week" startHour="06:00" endHour="22:00">
+      <ng-template #eventTemplate let-data>
+        <div class="template-wrap" [style.background]="data.SecondaryColor">
+          <div class="subject" [style.background]="data.PrimaryColor">{{ data.Subject }}</div>
+          <div class="time" [style.background]="data.PrimaryColor">
+            Time: {{ getTimeString(data.StartTime) }} - {{ getTimeString(data.EndTime) }}
+          </div>
+          <div class="image">
+            <img src="../../content/images/{{ data.ImageName }}.svg" alt="{{ ImageName }}" />
+            <!-- ./assets/schedule/images/{{data.ImageName}}.svg -->
+          </div>
+          <div class="description">{{ data.Description }}</div>
+          <div class="footer" [style.background]="data.PrimaryColor"></div>
+        </div>
+      </ng-template>
+    </e-view>
+    <e-view option="WorkWeek" startHour="06:00" endHour="22:00"></e-view>
+    <e-view option="Month" [showWeekend]="showWeekend"></e-view>
+  </e-views>
+</ejs-schedule>
+
+<!-- [currentView]='currentView' -->
+<!-- css-class="e-customClass" -->

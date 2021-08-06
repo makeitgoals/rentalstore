@@ -1,0 +1,43 @@
+<ejs-sidebar #sideBar id="plannerSiderBar" [type]="type" [showBackdrop]="showBackdrop" [closeOnDocumentClick]="closeOnDocumentClick">
+  <div class="dock">
+    <div class="info align-center">
+      <div class="image"><img src="../../../content/images/Admin.png" /></div>
+      <div class="content nameContent">
+        <p class="name" style="margin-top: 16px">Tulsi Garg</p>
+        <p class="user-type">Admin</p>
+      </div>
+    </div>
+    <div class="sidebar-item dashboard" routerLink="/home" (click)="onItemClick($event)">
+      <span class="dashboard-image"
+        ><span class="icon-dashboard item-image">
+          <fa-icon icon="home"></fa-icon> </span
+      ></span>
+      <span class="text" title="dashboard">Home</span>
+    </div>
+    <div class="sidebar-item calendar" routerLink="/sheduler" (click)="onItemClick($event)">
+      <span class="scheduler-image"
+        ><span class="icon-schedule item-image">
+          <fa-icon icon="calendar"></fa-icon> </span
+      ></span>
+      <span class="text" title="calendar">Schedule</span>
+    </div>
+    <div class="sidebar-item doctors" routerLink="/coaches" (click)="onItemClick($event)">
+      <span class="doctors-image"><span class="icon-doctors item-image"></span></span>
+      <span class="text" title="doctors">Coaches</span>
+    </div>
+    <div class="sidebar-item patients" routerLink="/skaters" (click)="onItemClick($event)">
+      <span class="patients-image"><span class="icon-patients item-image"></span></span>
+      <span class="text" title="patients">Skaters</span>
+    </div>
+    <div class="sidebar-item preference" routerLink="/preference" (click)="onItemClick($event)">
+      <span class="preference-image"><span class="icon-preference item-image"></span></span>
+      <span class="text" title="preference">Preference</span>
+    </div>
+    <div class="sidebar-item about" routerLink="/about" (click)="onItemClick($event)">
+      <span class="about-image"><span class="icon-about item-image"></span></span>
+      <span class="text" title="about">About</span>
+    </div>
+  </div>
+</ejs-sidebar>
+
+<!-- (created)='onCreated($event)' -->

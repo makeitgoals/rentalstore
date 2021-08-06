@@ -171,3 +171,34 @@ ui bootstrap tweaks
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+.e-schedule .e-schedule-toolbar .e-active-view .e-tbar-btn-text,
+.e-schedule .e-schedule-toolbar .e-active-view .e-icons {
+  background-color: $primary;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  color: #fff;
+}
+
+.e-btn.e-flat.e-primary,
+.e-css.e-btn.e-flat.e-primary {
+  background-color: $primary;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  color: #fff;
+}
+
+.e-btn.e-flat,
+.e-css.e-btn.e-flat {
+  box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+  color: #212121;
+}
+
+.e-float-input textarea ~ .e-float-text,
+.e-float-input.e-control-wrapper textarea ~ .e-float-text {
+  top: 16px;
+}
+
+.e-popup-open {
+  .e-list-item {
+    padding: 4px 20px 4px 0px;
+  }
+}

@@ -20,7 +20,7 @@
 
   <div class="mb-2 d-flex justify-content-start align-items-center">
     <span class="mx-2 col-2">Filter by name</span>
-    <input type="search" class="form-control" [(ngModel)]="filter" (keyup)="loadPage()" />
+    <input type="search" class="form-control" (input)="onNameChange(name.value)" #name />
   </div>
 
   <jhi-alert-error></jhi-alert-error>

@@ -30,6 +30,10 @@ import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 
 import { SchedulerModule } from './scheduler/scheduler.module';
+import { Sidebar2Component } from './layouts/sidebar/sidebar.component';
+
+// Imported syncfusion sidebar module from navigations package
+import { SidebarModule, SidebarComponent } from '@syncfusion/ej2-angular-navigations';
 
 @NgModule({
   imports: [
@@ -55,6 +59,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
       },
     }),
     SchedulerModule,
+    SidebarModule,
   ],
   providers: [
     Title,
@@ -62,7 +67,15 @@ import { SchedulerModule } from './scheduler/scheduler.module';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    ActiveMenuDirective,
+    FooterComponent,
+    Sidebar2Component,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

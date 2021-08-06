@@ -16,5 +16,6 @@ import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
     ScheduleModule,
   ],
   declarations: [SchedulerComponent],
+  exports: [SchedulerComponent],
 })
 export class SchedulerModule {}

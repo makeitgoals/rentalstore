@@ -37,7 +37,6 @@ export class ProductComponent implements OnInit {
   loadPage(page?: number, dontNavigate?: boolean): void {
     this.isLoading = true;
     const pageToLoad: number = page ?? this.page ?? 1;
-
     this.productService
       .query({
         page: pageToLoad - 1,
@@ -59,6 +58,11 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.handleNavigation();
+  }
+
+  onNameChange(value: string): void {
+    this.filter = value;
+    this.loadPage();
   }
 
   trackId(index: number, item: IProduct): number {
