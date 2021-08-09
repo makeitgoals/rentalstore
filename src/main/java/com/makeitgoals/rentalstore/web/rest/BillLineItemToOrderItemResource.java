@@ -1,7 +1,9 @@
 package com.makeitgoals.rentalstore.web.rest;
 
 import com.makeitgoals.rentalstore.repository.BillLineItemToOrderItemRepository;
+import com.makeitgoals.rentalstore.service.BillLineItemToOrderItemQueryService;
 import com.makeitgoals.rentalstore.service.BillLineItemToOrderItemService;
+import com.makeitgoals.rentalstore.service.criteria.BillLineItemToOrderItemCriteria;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemToOrderItemDTO;
 import com.makeitgoals.rentalstore.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -37,12 +39,16 @@ public class BillLineItemToOrderItemResource {
 
     private final BillLineItemToOrderItemRepository billLineItemToOrderItemRepository;
 
+    private final BillLineItemToOrderItemQueryService billLineItemToOrderItemQueryService;
+
     public BillLineItemToOrderItemResource(
         BillLineItemToOrderItemService billLineItemToOrderItemService,
-        BillLineItemToOrderItemRepository billLineItemToOrderItemRepository
+        BillLineItemToOrderItemRepository billLineItemToOrderItemRepository,
+        BillLineItemToOrderItemQueryService billLineItemToOrderItemQueryService
     ) {
         this.billLineItemToOrderItemService = billLineItemToOrderItemService;
         this.billLineItemToOrderItemRepository = billLineItemToOrderItemRepository;
+        this.billLineItemToOrderItemQueryService = billLineItemToOrderItemQueryService;
     }
 
     /**
@@ -140,12 +146,26 @@ public class BillLineItemToOrderItemResource {
     /**
      * {@code GET  /bill-line-item-to-order-items} : get all the billLineItemToOrderItems.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of billLineItemToOrderItems in body.
      */
     @GetMapping("/bill-line-item-to-order-items")
-    public List<BillLineItemToOrderItemDTO> getAllBillLineItemToOrderItems() {
-        log.debug("REST request to get all BillLineItemToOrderItems");
-        return billLineItemToOrderItemService.findAll();
+    public ResponseEntity<List<BillLineItemToOrderItemDTO>> getAllBillLineItemToOrderItems(BillLineItemToOrderItemCriteria criteria) {
+        log.debug("REST request to get BillLineItemToOrderItems by criteria: {}", criteria);
+        List<BillLineItemToOrderItemDTO> entityList = billLineItemToOrderItemQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /bill-line-item-to-order-items/count} : count all the billLineItemToOrderItems.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/bill-line-item-to-order-items/count")
+    public ResponseEntity<Long> countBillLineItemToOrderItems(BillLineItemToOrderItemCriteria criteria) {
+        log.debug("REST request to count BillLineItemToOrderItems by criteria: {}", criteria);
+        return ResponseEntity.ok().body(billLineItemToOrderItemQueryService.countByCriteria(criteria));
     }
 
     /**

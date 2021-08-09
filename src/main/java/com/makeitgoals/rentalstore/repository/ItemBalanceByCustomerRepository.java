@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ItemBalanceByCustomerRepository extends JpaRepository<ItemBalanceByCustomer, Long> {}
+public interface ItemBalanceByCustomerRepository
+    extends JpaRepository<ItemBalanceByCustomer, Long>, JpaSpecificationExecutor<ItemBalanceByCustomer> {}

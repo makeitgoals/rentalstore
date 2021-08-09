@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BillLineItemToOrderItemRepository extends JpaRepository<BillLineItemToOrderItem, Long> {}
+public interface BillLineItemToOrderItemRepository
+    extends JpaRepository<BillLineItemToOrderItem, Long>, JpaSpecificationExecutor<BillLineItemToOrderItem> {}

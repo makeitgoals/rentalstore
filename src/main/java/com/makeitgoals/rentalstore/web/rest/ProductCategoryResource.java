@@ -1,7 +1,9 @@
 package com.makeitgoals.rentalstore.web.rest;
 
 import com.makeitgoals.rentalstore.repository.ProductCategoryRepository;
+import com.makeitgoals.rentalstore.service.ProductCategoryQueryService;
 import com.makeitgoals.rentalstore.service.ProductCategoryService;
+import com.makeitgoals.rentalstore.service.criteria.ProductCategoryCriteria;
 import com.makeitgoals.rentalstore.service.dto.ProductCategoryDTO;
 import com.makeitgoals.rentalstore.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -37,9 +39,16 @@ public class ProductCategoryResource {
 
     private final ProductCategoryRepository productCategoryRepository;
 
-    public ProductCategoryResource(ProductCategoryService productCategoryService, ProductCategoryRepository productCategoryRepository) {
+    private final ProductCategoryQueryService productCategoryQueryService;
+
+    public ProductCategoryResource(
+        ProductCategoryService productCategoryService,
+        ProductCategoryRepository productCategoryRepository,
+        ProductCategoryQueryService productCategoryQueryService
+    ) {
         this.productCategoryService = productCategoryService;
         this.productCategoryRepository = productCategoryRepository;
+        this.productCategoryQueryService = productCategoryQueryService;
     }
 
     /**
@@ -136,12 +145,26 @@ public class ProductCategoryResource {
     /**
      * {@code GET  /product-categories} : get all the productCategories.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of productCategories in body.
      */
     @GetMapping("/product-categories")
-    public List<ProductCategoryDTO> getAllProductCategories() {
-        log.debug("REST request to get all ProductCategories");
-        return productCategoryService.findAll();
+    public ResponseEntity<List<ProductCategoryDTO>> getAllProductCategories(ProductCategoryCriteria criteria) {
+        log.debug("REST request to get ProductCategories by criteria: {}", criteria);
+        List<ProductCategoryDTO> entityList = productCategoryQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /product-categories/count} : count all the productCategories.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/product-categories/count")
+    public ResponseEntity<Long> countProductCategories(ProductCategoryCriteria criteria) {
+        log.debug("REST request to count ProductCategories by criteria: {}", criteria);
+        return ResponseEntity.ok().body(productCategoryQueryService.countByCriteria(criteria));
     }
 
     /**

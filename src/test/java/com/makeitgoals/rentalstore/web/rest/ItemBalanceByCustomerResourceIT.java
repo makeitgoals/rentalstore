@@ -11,6 +11,7 @@ import com.makeitgoals.rentalstore.domain.ItemBalanceByCustomer;
 import com.makeitgoals.rentalstore.domain.OrderItem;
 import com.makeitgoals.rentalstore.domain.Product;
 import com.makeitgoals.rentalstore.repository.ItemBalanceByCustomerRepository;
+import com.makeitgoals.rentalstore.service.criteria.ItemBalanceByCustomerCriteria;
 import com.makeitgoals.rentalstore.service.dto.ItemBalanceByCustomerDTO;
 import com.makeitgoals.rentalstore.service.mapper.ItemBalanceByCustomerMapper;
 import java.util.List;
@@ -36,6 +37,7 @@ class ItemBalanceByCustomerResourceIT {
 
     private static final Integer DEFAULT_OUTSTANDING_BALANCE = 0;
     private static final Integer UPDATED_OUTSTANDING_BALANCE = 1;
+    private static final Integer SMALLER_OUTSTANDING_BALANCE = 0 - 1;
 
     private static final String ENTITY_API_URL = "/api/item-balance-by-customers";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -238,6 +240,225 @@ class ItemBalanceByCustomerResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(itemBalanceByCustomer.getId().intValue()))
             .andExpect(jsonPath("$.outstandingBalance").value(DEFAULT_OUTSTANDING_BALANCE));
+    }
+
+    @Test
+    @Transactional
+    void getItemBalanceByCustomersByIdFiltering() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        Long id = itemBalanceByCustomer.getId();
+
+        defaultItemBalanceByCustomerShouldBeFound("id.equals=" + id);
+        defaultItemBalanceByCustomerShouldNotBeFound("id.notEquals=" + id);
+
+        defaultItemBalanceByCustomerShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultItemBalanceByCustomerShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultItemBalanceByCustomerShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultItemBalanceByCustomerShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance equals to DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.equals=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance equals to UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.equals=" + UPDATED_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance not equals to DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.notEquals=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance not equals to UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.notEquals=" + UPDATED_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsInShouldWork() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance in DEFAULT_OUTSTANDING_BALANCE or UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound(
+            "outstandingBalance.in=" + DEFAULT_OUTSTANDING_BALANCE + "," + UPDATED_OUTSTANDING_BALANCE
+        );
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance equals to UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.in=" + UPDATED_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is not null
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.specified=true");
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is null
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is greater than or equal to DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.greaterThanOrEqual=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is greater than or equal to UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.greaterThanOrEqual=" + UPDATED_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is less than or equal to DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.lessThanOrEqual=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is less than or equal to SMALLER_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.lessThanOrEqual=" + SMALLER_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsLessThanSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is less than DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.lessThan=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is less than UPDATED_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.lessThan=" + UPDATED_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOutstandingBalanceIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is greater than DEFAULT_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldNotBeFound("outstandingBalance.greaterThan=" + DEFAULT_OUTSTANDING_BALANCE);
+
+        // Get all the itemBalanceByCustomerList where outstandingBalance is greater than SMALLER_OUTSTANDING_BALANCE
+        defaultItemBalanceByCustomerShouldBeFound("outstandingBalance.greaterThan=" + SMALLER_OUTSTANDING_BALANCE);
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        Product product = ProductResourceIT.createEntity(em);
+        em.persist(product);
+        em.flush();
+        itemBalanceByCustomer.setProduct(product);
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        Long productId = product.getId();
+
+        // Get all the itemBalanceByCustomerList where product equals to productId
+        defaultItemBalanceByCustomerShouldBeFound("productId.equals=" + productId);
+
+        // Get all the itemBalanceByCustomerList where product equals to (productId + 1)
+        defaultItemBalanceByCustomerShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByOrderItemIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        OrderItem orderItem = OrderItemResourceIT.createEntity(em);
+        em.persist(orderItem);
+        em.flush();
+        itemBalanceByCustomer.setOrderItem(orderItem);
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        Long orderItemId = orderItem.getId();
+
+        // Get all the itemBalanceByCustomerList where orderItem equals to orderItemId
+        defaultItemBalanceByCustomerShouldBeFound("orderItemId.equals=" + orderItemId);
+
+        // Get all the itemBalanceByCustomerList where orderItem equals to (orderItemId + 1)
+        defaultItemBalanceByCustomerShouldNotBeFound("orderItemId.equals=" + (orderItemId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllItemBalanceByCustomersByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        Customer customer = CustomerResourceIT.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        itemBalanceByCustomer.setCustomer(customer);
+        itemBalanceByCustomerRepository.saveAndFlush(itemBalanceByCustomer);
+        Long customerId = customer.getId();
+
+        // Get all the itemBalanceByCustomerList where customer equals to customerId
+        defaultItemBalanceByCustomerShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the itemBalanceByCustomerList where customer equals to (customerId + 1)
+        defaultItemBalanceByCustomerShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultItemBalanceByCustomerShouldBeFound(String filter) throws Exception {
+        restItemBalanceByCustomerMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(itemBalanceByCustomer.getId().intValue())))
+            .andExpect(jsonPath("$.[*].outstandingBalance").value(hasItem(DEFAULT_OUTSTANDING_BALANCE)));
+
+        // Check, that the count call also returns 1
+        restItemBalanceByCustomerMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultItemBalanceByCustomerShouldNotBeFound(String filter) throws Exception {
+        restItemBalanceByCustomerMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restItemBalanceByCustomerMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

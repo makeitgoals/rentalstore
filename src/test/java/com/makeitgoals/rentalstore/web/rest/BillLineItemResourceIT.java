@@ -12,6 +12,7 @@ import com.makeitgoals.rentalstore.domain.BillLineItem;
 import com.makeitgoals.rentalstore.domain.Product;
 import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.BillLineItemRepository;
+import com.makeitgoals.rentalstore.service.criteria.BillLineItemCriteria;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.BillLineItemMapper;
 import java.math.BigDecimal;
@@ -49,9 +50,11 @@ class BillLineItemResourceIT {
 
     private static final Integer DEFAULT_OUTSTANDING_QUANTITY = 0;
     private static final Integer UPDATED_OUTSTANDING_QUANTITY = 1;
+    private static final Integer SMALLER_OUTSTANDING_QUANTITY = 0 - 1;
 
     private static final BigDecimal DEFAULT_LINE_AMOUNT = new BigDecimal(0);
     private static final BigDecimal UPDATED_LINE_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal SMALLER_LINE_AMOUNT = new BigDecimal(0 - 1);
 
     private static final String ENTITY_API_URL = "/api/bill-line-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -330,6 +333,513 @@ class BillLineItemResourceIT {
             .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
             .andExpect(jsonPath("$.outstandingQuantity").value(DEFAULT_OUTSTANDING_QUANTITY))
             .andExpect(jsonPath("$.lineAmount").value(sameNumber(DEFAULT_LINE_AMOUNT)));
+    }
+
+    @Test
+    @Transactional
+    void getBillLineItemsByIdFiltering() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        Long id = billLineItem.getId();
+
+        defaultBillLineItemShouldBeFound("id.equals=" + id);
+        defaultBillLineItemShouldNotBeFound("id.notEquals=" + id);
+
+        defaultBillLineItemShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultBillLineItemShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultBillLineItemShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultBillLineItemShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details equals to DEFAULT_DETAILS
+        defaultBillLineItemShouldBeFound("details.equals=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemList where details equals to UPDATED_DETAILS
+        defaultBillLineItemShouldNotBeFound("details.equals=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details not equals to DEFAULT_DETAILS
+        defaultBillLineItemShouldNotBeFound("details.notEquals=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemList where details not equals to UPDATED_DETAILS
+        defaultBillLineItemShouldBeFound("details.notEquals=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details in DEFAULT_DETAILS or UPDATED_DETAILS
+        defaultBillLineItemShouldBeFound("details.in=" + DEFAULT_DETAILS + "," + UPDATED_DETAILS);
+
+        // Get all the billLineItemList where details equals to UPDATED_DETAILS
+        defaultBillLineItemShouldNotBeFound("details.in=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details is not null
+        defaultBillLineItemShouldBeFound("details.specified=true");
+
+        // Get all the billLineItemList where details is null
+        defaultBillLineItemShouldNotBeFound("details.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsContainsSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details contains DEFAULT_DETAILS
+        defaultBillLineItemShouldBeFound("details.contains=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemList where details contains UPDATED_DETAILS
+        defaultBillLineItemShouldNotBeFound("details.contains=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByDetailsNotContainsSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where details does not contain DEFAULT_DETAILS
+        defaultBillLineItemShouldNotBeFound("details.doesNotContain=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemList where details does not contain UPDATED_DETAILS
+        defaultBillLineItemShouldBeFound("details.doesNotContain=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByFromDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where fromDate equals to DEFAULT_FROM_DATE
+        defaultBillLineItemShouldBeFound("fromDate.equals=" + DEFAULT_FROM_DATE);
+
+        // Get all the billLineItemList where fromDate equals to UPDATED_FROM_DATE
+        defaultBillLineItemShouldNotBeFound("fromDate.equals=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByFromDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where fromDate not equals to DEFAULT_FROM_DATE
+        defaultBillLineItemShouldNotBeFound("fromDate.notEquals=" + DEFAULT_FROM_DATE);
+
+        // Get all the billLineItemList where fromDate not equals to UPDATED_FROM_DATE
+        defaultBillLineItemShouldBeFound("fromDate.notEquals=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByFromDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where fromDate in DEFAULT_FROM_DATE or UPDATED_FROM_DATE
+        defaultBillLineItemShouldBeFound("fromDate.in=" + DEFAULT_FROM_DATE + "," + UPDATED_FROM_DATE);
+
+        // Get all the billLineItemList where fromDate equals to UPDATED_FROM_DATE
+        defaultBillLineItemShouldNotBeFound("fromDate.in=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByFromDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where fromDate is not null
+        defaultBillLineItemShouldBeFound("fromDate.specified=true");
+
+        // Get all the billLineItemList where fromDate is null
+        defaultBillLineItemShouldNotBeFound("fromDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByToDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where toDate equals to DEFAULT_TO_DATE
+        defaultBillLineItemShouldBeFound("toDate.equals=" + DEFAULT_TO_DATE);
+
+        // Get all the billLineItemList where toDate equals to UPDATED_TO_DATE
+        defaultBillLineItemShouldNotBeFound("toDate.equals=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByToDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where toDate not equals to DEFAULT_TO_DATE
+        defaultBillLineItemShouldNotBeFound("toDate.notEquals=" + DEFAULT_TO_DATE);
+
+        // Get all the billLineItemList where toDate not equals to UPDATED_TO_DATE
+        defaultBillLineItemShouldBeFound("toDate.notEquals=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByToDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where toDate in DEFAULT_TO_DATE or UPDATED_TO_DATE
+        defaultBillLineItemShouldBeFound("toDate.in=" + DEFAULT_TO_DATE + "," + UPDATED_TO_DATE);
+
+        // Get all the billLineItemList where toDate equals to UPDATED_TO_DATE
+        defaultBillLineItemShouldNotBeFound("toDate.in=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByToDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where toDate is not null
+        defaultBillLineItemShouldBeFound("toDate.specified=true");
+
+        // Get all the billLineItemList where toDate is null
+        defaultBillLineItemShouldNotBeFound("toDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity equals to DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.equals=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity equals to UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.equals=" + UPDATED_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity not equals to DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.notEquals=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity not equals to UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.notEquals=" + UPDATED_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity in DEFAULT_OUTSTANDING_QUANTITY or UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.in=" + DEFAULT_OUTSTANDING_QUANTITY + "," + UPDATED_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity equals to UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.in=" + UPDATED_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity is not null
+        defaultBillLineItemShouldBeFound("outstandingQuantity.specified=true");
+
+        // Get all the billLineItemList where outstandingQuantity is null
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity is greater than or equal to DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.greaterThanOrEqual=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity is greater than or equal to UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.greaterThanOrEqual=" + UPDATED_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity is less than or equal to DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.lessThanOrEqual=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity is less than or equal to SMALLER_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.lessThanOrEqual=" + SMALLER_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsLessThanSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity is less than DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.lessThan=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity is less than UPDATED_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.lessThan=" + UPDATED_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByOutstandingQuantityIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where outstandingQuantity is greater than DEFAULT_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldNotBeFound("outstandingQuantity.greaterThan=" + DEFAULT_OUTSTANDING_QUANTITY);
+
+        // Get all the billLineItemList where outstandingQuantity is greater than SMALLER_OUTSTANDING_QUANTITY
+        defaultBillLineItemShouldBeFound("outstandingQuantity.greaterThan=" + SMALLER_OUTSTANDING_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount equals to DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.equals=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount equals to UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.equals=" + UPDATED_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount not equals to DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.notEquals=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount not equals to UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.notEquals=" + UPDATED_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount in DEFAULT_LINE_AMOUNT or UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.in=" + DEFAULT_LINE_AMOUNT + "," + UPDATED_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount equals to UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.in=" + UPDATED_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount is not null
+        defaultBillLineItemShouldBeFound("lineAmount.specified=true");
+
+        // Get all the billLineItemList where lineAmount is null
+        defaultBillLineItemShouldNotBeFound("lineAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount is greater than or equal to DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.greaterThanOrEqual=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount is greater than or equal to UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.greaterThanOrEqual=" + UPDATED_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount is less than or equal to DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.lessThanOrEqual=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount is less than or equal to SMALLER_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.lessThanOrEqual=" + SMALLER_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount is less than DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.lessThan=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount is less than UPDATED_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.lessThan=" + UPDATED_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByLineAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+
+        // Get all the billLineItemList where lineAmount is greater than DEFAULT_LINE_AMOUNT
+        defaultBillLineItemShouldNotBeFound("lineAmount.greaterThan=" + DEFAULT_LINE_AMOUNT);
+
+        // Get all the billLineItemList where lineAmount is greater than SMALLER_LINE_AMOUNT
+        defaultBillLineItemShouldBeFound("lineAmount.greaterThan=" + SMALLER_LINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+        Product product = ProductResourceIT.createEntity(em);
+        em.persist(product);
+        em.flush();
+        billLineItem.setProduct(product);
+        billLineItemRepository.saveAndFlush(billLineItem);
+        Long productId = product.getId();
+
+        // Get all the billLineItemList where product equals to productId
+        defaultBillLineItemShouldBeFound("productId.equals=" + productId);
+
+        // Get all the billLineItemList where product equals to (productId + 1)
+        defaultBillLineItemShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByBillIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+        Bill bill = BillResourceIT.createEntity(em);
+        em.persist(bill);
+        em.flush();
+        billLineItem.setBill(bill);
+        billLineItemRepository.saveAndFlush(billLineItem);
+        Long billId = bill.getId();
+
+        // Get all the billLineItemList where bill equals to billId
+        defaultBillLineItemShouldBeFound("billId.equals=" + billId);
+
+        // Get all the billLineItemList where bill equals to (billId + 1)
+        defaultBillLineItemShouldNotBeFound("billId.equals=" + (billId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemsByRentalOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemRepository.saveAndFlush(billLineItem);
+        RentalOrder rentalOrder = RentalOrderResourceIT.createEntity(em);
+        em.persist(rentalOrder);
+        em.flush();
+        billLineItem.setRentalOrder(rentalOrder);
+        billLineItemRepository.saveAndFlush(billLineItem);
+        Long rentalOrderId = rentalOrder.getId();
+
+        // Get all the billLineItemList where rentalOrder equals to rentalOrderId
+        defaultBillLineItemShouldBeFound("rentalOrderId.equals=" + rentalOrderId);
+
+        // Get all the billLineItemList where rentalOrder equals to (rentalOrderId + 1)
+        defaultBillLineItemShouldNotBeFound("rentalOrderId.equals=" + (rentalOrderId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultBillLineItemShouldBeFound(String filter) throws Exception {
+        restBillLineItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(billLineItem.getId().intValue())))
+            .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS)))
+            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].outstandingQuantity").value(hasItem(DEFAULT_OUTSTANDING_QUANTITY)))
+            .andExpect(jsonPath("$.[*].lineAmount").value(hasItem(sameNumber(DEFAULT_LINE_AMOUNT))));
+
+        // Check, that the count call also returns 1
+        restBillLineItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultBillLineItemShouldNotBeFound(String filter) throws Exception {
+        restBillLineItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restBillLineItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

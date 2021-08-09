@@ -11,6 +11,7 @@ import com.makeitgoals.rentalstore.domain.BillLineItemToOrderItem;
 import com.makeitgoals.rentalstore.domain.OrderItem;
 import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.BillLineItemToOrderItemRepository;
+import com.makeitgoals.rentalstore.service.criteria.BillLineItemToOrderItemCriteria;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemToOrderItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.BillLineItemToOrderItemMapper;
 import java.util.List;
@@ -216,6 +217,197 @@ class BillLineItemToOrderItemResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(billLineItemToOrderItem.getId().intValue()))
             .andExpect(jsonPath("$.details").value(DEFAULT_DETAILS));
+    }
+
+    @Test
+    @Transactional
+    void getBillLineItemToOrderItemsByIdFiltering() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        Long id = billLineItemToOrderItem.getId();
+
+        defaultBillLineItemToOrderItemShouldBeFound("id.equals=" + id);
+        defaultBillLineItemToOrderItemShouldNotBeFound("id.notEquals=" + id);
+
+        defaultBillLineItemToOrderItemShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultBillLineItemToOrderItemShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultBillLineItemToOrderItemShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultBillLineItemToOrderItemShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details equals to DEFAULT_DETAILS
+        defaultBillLineItemToOrderItemShouldBeFound("details.equals=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemToOrderItemList where details equals to UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.equals=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details not equals to DEFAULT_DETAILS
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.notEquals=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemToOrderItemList where details not equals to UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldBeFound("details.notEquals=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsIsInShouldWork() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details in DEFAULT_DETAILS or UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldBeFound("details.in=" + DEFAULT_DETAILS + "," + UPDATED_DETAILS);
+
+        // Get all the billLineItemToOrderItemList where details equals to UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.in=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details is not null
+        defaultBillLineItemToOrderItemShouldBeFound("details.specified=true");
+
+        // Get all the billLineItemToOrderItemList where details is null
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsContainsSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details contains DEFAULT_DETAILS
+        defaultBillLineItemToOrderItemShouldBeFound("details.contains=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemToOrderItemList where details contains UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.contains=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByDetailsNotContainsSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+
+        // Get all the billLineItemToOrderItemList where details does not contain DEFAULT_DETAILS
+        defaultBillLineItemToOrderItemShouldNotBeFound("details.doesNotContain=" + DEFAULT_DETAILS);
+
+        // Get all the billLineItemToOrderItemList where details does not contain UPDATED_DETAILS
+        defaultBillLineItemToOrderItemShouldBeFound("details.doesNotContain=" + UPDATED_DETAILS);
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByOrderItemIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        OrderItem orderItem = OrderItemResourceIT.createEntity(em);
+        em.persist(orderItem);
+        em.flush();
+        billLineItemToOrderItem.setOrderItem(orderItem);
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        Long orderItemId = orderItem.getId();
+
+        // Get all the billLineItemToOrderItemList where orderItem equals to orderItemId
+        defaultBillLineItemToOrderItemShouldBeFound("orderItemId.equals=" + orderItemId);
+
+        // Get all the billLineItemToOrderItemList where orderItem equals to (orderItemId + 1)
+        defaultBillLineItemToOrderItemShouldNotBeFound("orderItemId.equals=" + (orderItemId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByRentalOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        RentalOrder rentalOrder = RentalOrderResourceIT.createEntity(em);
+        em.persist(rentalOrder);
+        em.flush();
+        billLineItemToOrderItem.setRentalOrder(rentalOrder);
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        Long rentalOrderId = rentalOrder.getId();
+
+        // Get all the billLineItemToOrderItemList where rentalOrder equals to rentalOrderId
+        defaultBillLineItemToOrderItemShouldBeFound("rentalOrderId.equals=" + rentalOrderId);
+
+        // Get all the billLineItemToOrderItemList where rentalOrder equals to (rentalOrderId + 1)
+        defaultBillLineItemToOrderItemShouldNotBeFound("rentalOrderId.equals=" + (rentalOrderId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllBillLineItemToOrderItemsByBillLineItemIsEqualToSomething() throws Exception {
+        // Initialize the database
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        BillLineItem billLineItem = BillLineItemResourceIT.createEntity(em);
+        em.persist(billLineItem);
+        em.flush();
+        billLineItemToOrderItem.setBillLineItem(billLineItem);
+        billLineItemToOrderItemRepository.saveAndFlush(billLineItemToOrderItem);
+        Long billLineItemId = billLineItem.getId();
+
+        // Get all the billLineItemToOrderItemList where billLineItem equals to billLineItemId
+        defaultBillLineItemToOrderItemShouldBeFound("billLineItemId.equals=" + billLineItemId);
+
+        // Get all the billLineItemToOrderItemList where billLineItem equals to (billLineItemId + 1)
+        defaultBillLineItemToOrderItemShouldNotBeFound("billLineItemId.equals=" + (billLineItemId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultBillLineItemToOrderItemShouldBeFound(String filter) throws Exception {
+        restBillLineItemToOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(billLineItemToOrderItem.getId().intValue())))
+            .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS)));
+
+        // Check, that the count call also returns 1
+        restBillLineItemToOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultBillLineItemToOrderItemShouldNotBeFound(String filter) throws Exception {
+        restBillLineItemToOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restBillLineItemToOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

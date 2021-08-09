@@ -1,7 +1,9 @@
 package com.makeitgoals.rentalstore.web.rest;
 
 import com.makeitgoals.rentalstore.repository.BillLineItemRepository;
+import com.makeitgoals.rentalstore.service.BillLineItemQueryService;
 import com.makeitgoals.rentalstore.service.BillLineItemService;
+import com.makeitgoals.rentalstore.service.criteria.BillLineItemCriteria;
 import com.makeitgoals.rentalstore.service.dto.BillLineItemDTO;
 import com.makeitgoals.rentalstore.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -37,9 +39,16 @@ public class BillLineItemResource {
 
     private final BillLineItemRepository billLineItemRepository;
 
-    public BillLineItemResource(BillLineItemService billLineItemService, BillLineItemRepository billLineItemRepository) {
+    private final BillLineItemQueryService billLineItemQueryService;
+
+    public BillLineItemResource(
+        BillLineItemService billLineItemService,
+        BillLineItemRepository billLineItemRepository,
+        BillLineItemQueryService billLineItemQueryService
+    ) {
         this.billLineItemService = billLineItemService;
         this.billLineItemRepository = billLineItemRepository;
+        this.billLineItemQueryService = billLineItemQueryService;
     }
 
     /**
@@ -136,12 +145,26 @@ public class BillLineItemResource {
     /**
      * {@code GET  /bill-line-items} : get all the billLineItems.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of billLineItems in body.
      */
     @GetMapping("/bill-line-items")
-    public List<BillLineItemDTO> getAllBillLineItems() {
-        log.debug("REST request to get all BillLineItems");
-        return billLineItemService.findAll();
+    public ResponseEntity<List<BillLineItemDTO>> getAllBillLineItems(BillLineItemCriteria criteria) {
+        log.debug("REST request to get BillLineItems by criteria: {}", criteria);
+        List<BillLineItemDTO> entityList = billLineItemQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /bill-line-items/count} : count all the billLineItems.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/bill-line-items/count")
+    public ResponseEntity<Long> countBillLineItems(BillLineItemCriteria criteria) {
+        log.debug("REST request to count BillLineItems by criteria: {}", criteria);
+        return ResponseEntity.ok().body(billLineItemQueryService.countByCriteria(criteria));
     }
 
     /**
