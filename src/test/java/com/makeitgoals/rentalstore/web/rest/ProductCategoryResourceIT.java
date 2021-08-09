@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.makeitgoals.rentalstore.IntegrationTest;
 import com.makeitgoals.rentalstore.domain.ProductCategory;
 import com.makeitgoals.rentalstore.repository.ProductCategoryRepository;
+import com.makeitgoals.rentalstore.service.criteria.ProductCategoryCriteria;
 import com.makeitgoals.rentalstore.service.dto.ProductCategoryDTO;
 import com.makeitgoals.rentalstore.service.mapper.ProductCategoryMapper;
 import java.util.List;
@@ -179,6 +180,223 @@ class ProductCategoryResourceIT {
             .andExpect(jsonPath("$.id").value(productCategory.getId().intValue()))
             .andExpect(jsonPath("$.productCategoryName").value(DEFAULT_PRODUCT_CATEGORY_NAME))
             .andExpect(jsonPath("$.productCategoryDescription").value(DEFAULT_PRODUCT_CATEGORY_DESCRIPTION));
+    }
+
+    @Test
+    @Transactional
+    void getProductCategoriesByIdFiltering() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        Long id = productCategory.getId();
+
+        defaultProductCategoryShouldBeFound("id.equals=" + id);
+        defaultProductCategoryShouldNotBeFound("id.notEquals=" + id);
+
+        defaultProductCategoryShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultProductCategoryShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultProductCategoryShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultProductCategoryShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName equals to DEFAULT_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldBeFound("productCategoryName.equals=" + DEFAULT_PRODUCT_CATEGORY_NAME);
+
+        // Get all the productCategoryList where productCategoryName equals to UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldNotBeFound("productCategoryName.equals=" + UPDATED_PRODUCT_CATEGORY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName not equals to DEFAULT_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldNotBeFound("productCategoryName.notEquals=" + DEFAULT_PRODUCT_CATEGORY_NAME);
+
+        // Get all the productCategoryList where productCategoryName not equals to UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldBeFound("productCategoryName.notEquals=" + UPDATED_PRODUCT_CATEGORY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName in DEFAULT_PRODUCT_CATEGORY_NAME or UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldBeFound(
+            "productCategoryName.in=" + DEFAULT_PRODUCT_CATEGORY_NAME + "," + UPDATED_PRODUCT_CATEGORY_NAME
+        );
+
+        // Get all the productCategoryList where productCategoryName equals to UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldNotBeFound("productCategoryName.in=" + UPDATED_PRODUCT_CATEGORY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName is not null
+        defaultProductCategoryShouldBeFound("productCategoryName.specified=true");
+
+        // Get all the productCategoryList where productCategoryName is null
+        defaultProductCategoryShouldNotBeFound("productCategoryName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameContainsSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName contains DEFAULT_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldBeFound("productCategoryName.contains=" + DEFAULT_PRODUCT_CATEGORY_NAME);
+
+        // Get all the productCategoryList where productCategoryName contains UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldNotBeFound("productCategoryName.contains=" + UPDATED_PRODUCT_CATEGORY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryName does not contain DEFAULT_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldNotBeFound("productCategoryName.doesNotContain=" + DEFAULT_PRODUCT_CATEGORY_NAME);
+
+        // Get all the productCategoryList where productCategoryName does not contain UPDATED_PRODUCT_CATEGORY_NAME
+        defaultProductCategoryShouldBeFound("productCategoryName.doesNotContain=" + UPDATED_PRODUCT_CATEGORY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription equals to DEFAULT_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldBeFound("productCategoryDescription.equals=" + DEFAULT_PRODUCT_CATEGORY_DESCRIPTION);
+
+        // Get all the productCategoryList where productCategoryDescription equals to UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.equals=" + UPDATED_PRODUCT_CATEGORY_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription not equals to DEFAULT_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.notEquals=" + DEFAULT_PRODUCT_CATEGORY_DESCRIPTION);
+
+        // Get all the productCategoryList where productCategoryDescription not equals to UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldBeFound("productCategoryDescription.notEquals=" + UPDATED_PRODUCT_CATEGORY_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription in DEFAULT_PRODUCT_CATEGORY_DESCRIPTION or UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldBeFound(
+            "productCategoryDescription.in=" + DEFAULT_PRODUCT_CATEGORY_DESCRIPTION + "," + UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        );
+
+        // Get all the productCategoryList where productCategoryDescription equals to UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.in=" + UPDATED_PRODUCT_CATEGORY_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription is not null
+        defaultProductCategoryShouldBeFound("productCategoryDescription.specified=true");
+
+        // Get all the productCategoryList where productCategoryDescription is null
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription contains DEFAULT_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldBeFound("productCategoryDescription.contains=" + DEFAULT_PRODUCT_CATEGORY_DESCRIPTION);
+
+        // Get all the productCategoryList where productCategoryDescription contains UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.contains=" + UPDATED_PRODUCT_CATEGORY_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductCategoriesByProductCategoryDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        productCategoryRepository.saveAndFlush(productCategory);
+
+        // Get all the productCategoryList where productCategoryDescription does not contain DEFAULT_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldNotBeFound("productCategoryDescription.doesNotContain=" + DEFAULT_PRODUCT_CATEGORY_DESCRIPTION);
+
+        // Get all the productCategoryList where productCategoryDescription does not contain UPDATED_PRODUCT_CATEGORY_DESCRIPTION
+        defaultProductCategoryShouldBeFound("productCategoryDescription.doesNotContain=" + UPDATED_PRODUCT_CATEGORY_DESCRIPTION);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultProductCategoryShouldBeFound(String filter) throws Exception {
+        restProductCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(productCategory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].productCategoryName").value(hasItem(DEFAULT_PRODUCT_CATEGORY_NAME)))
+            .andExpect(jsonPath("$.[*].productCategoryDescription").value(hasItem(DEFAULT_PRODUCT_CATEGORY_DESCRIPTION)));
+
+        // Check, that the count call also returns 1
+        restProductCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultProductCategoryShouldNotBeFound(String filter) throws Exception {
+        restProductCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restProductCategoryMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

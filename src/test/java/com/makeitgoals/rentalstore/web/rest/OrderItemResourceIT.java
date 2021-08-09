@@ -6,10 +6,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.makeitgoals.rentalstore.IntegrationTest;
+import com.makeitgoals.rentalstore.domain.ItemBalanceByCustomer;
 import com.makeitgoals.rentalstore.domain.OrderItem;
 import com.makeitgoals.rentalstore.domain.Product;
 import com.makeitgoals.rentalstore.domain.RentalOrder;
 import com.makeitgoals.rentalstore.repository.OrderItemRepository;
+import com.makeitgoals.rentalstore.service.criteria.OrderItemCriteria;
 import com.makeitgoals.rentalstore.service.dto.OrderItemDTO;
 import com.makeitgoals.rentalstore.service.mapper.OrderItemMapper;
 import java.util.List;
@@ -35,6 +37,7 @@ class OrderItemResourceIT {
 
     private static final Integer DEFAULT_QUANTITY = 0;
     private static final Integer UPDATED_QUANTITY = 1;
+    private static final Integer SMALLER_QUANTITY = 0 - 1;
 
     private static final String ENTITY_API_URL = "/api/order-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -205,6 +208,223 @@ class OrderItemResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(orderItem.getId().intValue()))
             .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY));
+    }
+
+    @Test
+    @Transactional
+    void getOrderItemsByIdFiltering() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        Long id = orderItem.getId();
+
+        defaultOrderItemShouldBeFound("id.equals=" + id);
+        defaultOrderItemShouldNotBeFound("id.notEquals=" + id);
+
+        defaultOrderItemShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultOrderItemShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultOrderItemShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultOrderItemShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity equals to DEFAULT_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.equals=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity equals to UPDATED_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.equals=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity not equals to DEFAULT_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.notEquals=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity not equals to UPDATED_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.notEquals=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsInShouldWork() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity in DEFAULT_QUANTITY or UPDATED_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.in=" + DEFAULT_QUANTITY + "," + UPDATED_QUANTITY);
+
+        // Get all the orderItemList where quantity equals to UPDATED_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.in=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity is not null
+        defaultOrderItemShouldBeFound("quantity.specified=true");
+
+        // Get all the orderItemList where quantity is null
+        defaultOrderItemShouldNotBeFound("quantity.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity is greater than or equal to DEFAULT_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.greaterThanOrEqual=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity is greater than or equal to UPDATED_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.greaterThanOrEqual=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity is less than or equal to DEFAULT_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.lessThanOrEqual=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity is less than or equal to SMALLER_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.lessThanOrEqual=" + SMALLER_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsLessThanSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity is less than DEFAULT_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.lessThan=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity is less than UPDATED_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.lessThan=" + UPDATED_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByQuantityIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+
+        // Get all the orderItemList where quantity is greater than DEFAULT_QUANTITY
+        defaultOrderItemShouldNotBeFound("quantity.greaterThan=" + DEFAULT_QUANTITY);
+
+        // Get all the orderItemList where quantity is greater than SMALLER_QUANTITY
+        defaultOrderItemShouldBeFound("quantity.greaterThan=" + SMALLER_QUANTITY);
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByRentalOrderIsEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+        RentalOrder rentalOrder = RentalOrderResourceIT.createEntity(em);
+        em.persist(rentalOrder);
+        em.flush();
+        orderItem.setRentalOrder(rentalOrder);
+        orderItemRepository.saveAndFlush(orderItem);
+        Long rentalOrderId = rentalOrder.getId();
+
+        // Get all the orderItemList where rentalOrder equals to rentalOrderId
+        defaultOrderItemShouldBeFound("rentalOrderId.equals=" + rentalOrderId);
+
+        // Get all the orderItemList where rentalOrder equals to (rentalOrderId + 1)
+        defaultOrderItemShouldNotBeFound("rentalOrderId.equals=" + (rentalOrderId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByProductIsEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+        Product product = ProductResourceIT.createEntity(em);
+        em.persist(product);
+        em.flush();
+        orderItem.setProduct(product);
+        orderItemRepository.saveAndFlush(orderItem);
+        Long productId = product.getId();
+
+        // Get all the orderItemList where product equals to productId
+        defaultOrderItemShouldBeFound("productId.equals=" + productId);
+
+        // Get all the orderItemList where product equals to (productId + 1)
+        defaultOrderItemShouldNotBeFound("productId.equals=" + (productId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllOrderItemsByItemBalanceByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        orderItemRepository.saveAndFlush(orderItem);
+        ItemBalanceByCustomer itemBalanceByCustomer = ItemBalanceByCustomerResourceIT.createEntity(em);
+        em.persist(itemBalanceByCustomer);
+        em.flush();
+        orderItem.addItemBalanceByCustomer(itemBalanceByCustomer);
+        orderItemRepository.saveAndFlush(orderItem);
+        Long itemBalanceByCustomerId = itemBalanceByCustomer.getId();
+
+        // Get all the orderItemList where itemBalanceByCustomer equals to itemBalanceByCustomerId
+        defaultOrderItemShouldBeFound("itemBalanceByCustomerId.equals=" + itemBalanceByCustomerId);
+
+        // Get all the orderItemList where itemBalanceByCustomer equals to (itemBalanceByCustomerId + 1)
+        defaultOrderItemShouldNotBeFound("itemBalanceByCustomerId.equals=" + (itemBalanceByCustomerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultOrderItemShouldBeFound(String filter) throws Exception {
+        restOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(orderItem.getId().intValue())))
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY)));
+
+        // Check, that the count call also returns 1
+        restOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultOrderItemShouldNotBeFound(String filter) throws Exception {
+        restOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restOrderItemMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

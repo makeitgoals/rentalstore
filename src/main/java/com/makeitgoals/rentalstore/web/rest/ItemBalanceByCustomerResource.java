@@ -1,7 +1,9 @@
 package com.makeitgoals.rentalstore.web.rest;
 
 import com.makeitgoals.rentalstore.repository.ItemBalanceByCustomerRepository;
+import com.makeitgoals.rentalstore.service.ItemBalanceByCustomerQueryService;
 import com.makeitgoals.rentalstore.service.ItemBalanceByCustomerService;
+import com.makeitgoals.rentalstore.service.criteria.ItemBalanceByCustomerCriteria;
 import com.makeitgoals.rentalstore.service.dto.ItemBalanceByCustomerDTO;
 import com.makeitgoals.rentalstore.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -43,12 +45,16 @@ public class ItemBalanceByCustomerResource {
 
     private final ItemBalanceByCustomerRepository itemBalanceByCustomerRepository;
 
+    private final ItemBalanceByCustomerQueryService itemBalanceByCustomerQueryService;
+
     public ItemBalanceByCustomerResource(
         ItemBalanceByCustomerService itemBalanceByCustomerService,
-        ItemBalanceByCustomerRepository itemBalanceByCustomerRepository
+        ItemBalanceByCustomerRepository itemBalanceByCustomerRepository,
+        ItemBalanceByCustomerQueryService itemBalanceByCustomerQueryService
     ) {
         this.itemBalanceByCustomerService = itemBalanceByCustomerService;
         this.itemBalanceByCustomerRepository = itemBalanceByCustomerRepository;
+        this.itemBalanceByCustomerQueryService = itemBalanceByCustomerQueryService;
     }
 
     /**
@@ -147,14 +153,30 @@ public class ItemBalanceByCustomerResource {
      * {@code GET  /item-balance-by-customers} : get all the itemBalanceByCustomers.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of itemBalanceByCustomers in body.
      */
     @GetMapping("/item-balance-by-customers")
-    public ResponseEntity<List<ItemBalanceByCustomerDTO>> getAllItemBalanceByCustomers(Pageable pageable) {
-        log.debug("REST request to get a page of ItemBalanceByCustomers");
-        Page<ItemBalanceByCustomerDTO> page = itemBalanceByCustomerService.findAll(pageable);
+    public ResponseEntity<List<ItemBalanceByCustomerDTO>> getAllItemBalanceByCustomers(
+        ItemBalanceByCustomerCriteria criteria,
+        Pageable pageable
+    ) {
+        log.debug("REST request to get ItemBalanceByCustomers by criteria: {}", criteria);
+        Page<ItemBalanceByCustomerDTO> page = itemBalanceByCustomerQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /item-balance-by-customers/count} : count all the itemBalanceByCustomers.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/item-balance-by-customers/count")
+    public ResponseEntity<Long> countItemBalanceByCustomers(ItemBalanceByCustomerCriteria criteria) {
+        log.debug("REST request to count ItemBalanceByCustomers by criteria: {}", criteria);
+        return ResponseEntity.ok().body(itemBalanceByCustomerQueryService.countByCriteria(criteria));
     }
 
     /**

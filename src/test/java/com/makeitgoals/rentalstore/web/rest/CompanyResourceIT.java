@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.makeitgoals.rentalstore.IntegrationTest;
 import com.makeitgoals.rentalstore.domain.Company;
 import com.makeitgoals.rentalstore.repository.CompanyRepository;
+import com.makeitgoals.rentalstore.service.criteria.CompanyCriteria;
 import com.makeitgoals.rentalstore.service.dto.CompanyDTO;
 import com.makeitgoals.rentalstore.service.mapper.CompanyMapper;
 import java.util.List;
@@ -215,6 +216,456 @@ class CompanyResourceIT {
             .andExpect(jsonPath("$.officeAddress").value(DEFAULT_OFFICE_ADDRESS))
             .andExpect(jsonPath("$.companyPhoneNumber").value(DEFAULT_COMPANY_PHONE_NUMBER))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
+    }
+
+    @Test
+    @Transactional
+    void getCompaniesByIdFiltering() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        Long id = company.getId();
+
+        defaultCompanyShouldBeFound("id.equals=" + id);
+        defaultCompanyShouldNotBeFound("id.notEquals=" + id);
+
+        defaultCompanyShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultCompanyShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultCompanyShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultCompanyShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName equals to DEFAULT_COMPANY_NAME
+        defaultCompanyShouldBeFound("companyName.equals=" + DEFAULT_COMPANY_NAME);
+
+        // Get all the companyList where companyName equals to UPDATED_COMPANY_NAME
+        defaultCompanyShouldNotBeFound("companyName.equals=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName not equals to DEFAULT_COMPANY_NAME
+        defaultCompanyShouldNotBeFound("companyName.notEquals=" + DEFAULT_COMPANY_NAME);
+
+        // Get all the companyList where companyName not equals to UPDATED_COMPANY_NAME
+        defaultCompanyShouldBeFound("companyName.notEquals=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName in DEFAULT_COMPANY_NAME or UPDATED_COMPANY_NAME
+        defaultCompanyShouldBeFound("companyName.in=" + DEFAULT_COMPANY_NAME + "," + UPDATED_COMPANY_NAME);
+
+        // Get all the companyList where companyName equals to UPDATED_COMPANY_NAME
+        defaultCompanyShouldNotBeFound("companyName.in=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName is not null
+        defaultCompanyShouldBeFound("companyName.specified=true");
+
+        // Get all the companyList where companyName is null
+        defaultCompanyShouldNotBeFound("companyName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName contains DEFAULT_COMPANY_NAME
+        defaultCompanyShouldBeFound("companyName.contains=" + DEFAULT_COMPANY_NAME);
+
+        // Get all the companyList where companyName contains UPDATED_COMPANY_NAME
+        defaultCompanyShouldNotBeFound("companyName.contains=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyName does not contain DEFAULT_COMPANY_NAME
+        defaultCompanyShouldNotBeFound("companyName.doesNotContain=" + DEFAULT_COMPANY_NAME);
+
+        // Get all the companyList where companyName does not contain UPDATED_COMPANY_NAME
+        defaultCompanyShouldBeFound("companyName.doesNotContain=" + UPDATED_COMPANY_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn equals to DEFAULT_DEALS_IN
+        defaultCompanyShouldBeFound("dealsIn.equals=" + DEFAULT_DEALS_IN);
+
+        // Get all the companyList where dealsIn equals to UPDATED_DEALS_IN
+        defaultCompanyShouldNotBeFound("dealsIn.equals=" + UPDATED_DEALS_IN);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn not equals to DEFAULT_DEALS_IN
+        defaultCompanyShouldNotBeFound("dealsIn.notEquals=" + DEFAULT_DEALS_IN);
+
+        // Get all the companyList where dealsIn not equals to UPDATED_DEALS_IN
+        defaultCompanyShouldBeFound("dealsIn.notEquals=" + UPDATED_DEALS_IN);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn in DEFAULT_DEALS_IN or UPDATED_DEALS_IN
+        defaultCompanyShouldBeFound("dealsIn.in=" + DEFAULT_DEALS_IN + "," + UPDATED_DEALS_IN);
+
+        // Get all the companyList where dealsIn equals to UPDATED_DEALS_IN
+        defaultCompanyShouldNotBeFound("dealsIn.in=" + UPDATED_DEALS_IN);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn is not null
+        defaultCompanyShouldBeFound("dealsIn.specified=true");
+
+        // Get all the companyList where dealsIn is null
+        defaultCompanyShouldNotBeFound("dealsIn.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn contains DEFAULT_DEALS_IN
+        defaultCompanyShouldBeFound("dealsIn.contains=" + DEFAULT_DEALS_IN);
+
+        // Get all the companyList where dealsIn contains UPDATED_DEALS_IN
+        defaultCompanyShouldNotBeFound("dealsIn.contains=" + UPDATED_DEALS_IN);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByDealsInNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where dealsIn does not contain DEFAULT_DEALS_IN
+        defaultCompanyShouldNotBeFound("dealsIn.doesNotContain=" + DEFAULT_DEALS_IN);
+
+        // Get all the companyList where dealsIn does not contain UPDATED_DEALS_IN
+        defaultCompanyShouldBeFound("dealsIn.doesNotContain=" + UPDATED_DEALS_IN);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress equals to DEFAULT_OFFICE_ADDRESS
+        defaultCompanyShouldBeFound("officeAddress.equals=" + DEFAULT_OFFICE_ADDRESS);
+
+        // Get all the companyList where officeAddress equals to UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldNotBeFound("officeAddress.equals=" + UPDATED_OFFICE_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress not equals to DEFAULT_OFFICE_ADDRESS
+        defaultCompanyShouldNotBeFound("officeAddress.notEquals=" + DEFAULT_OFFICE_ADDRESS);
+
+        // Get all the companyList where officeAddress not equals to UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldBeFound("officeAddress.notEquals=" + UPDATED_OFFICE_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress in DEFAULT_OFFICE_ADDRESS or UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldBeFound("officeAddress.in=" + DEFAULT_OFFICE_ADDRESS + "," + UPDATED_OFFICE_ADDRESS);
+
+        // Get all the companyList where officeAddress equals to UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldNotBeFound("officeAddress.in=" + UPDATED_OFFICE_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress is not null
+        defaultCompanyShouldBeFound("officeAddress.specified=true");
+
+        // Get all the companyList where officeAddress is null
+        defaultCompanyShouldNotBeFound("officeAddress.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress contains DEFAULT_OFFICE_ADDRESS
+        defaultCompanyShouldBeFound("officeAddress.contains=" + DEFAULT_OFFICE_ADDRESS);
+
+        // Get all the companyList where officeAddress contains UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldNotBeFound("officeAddress.contains=" + UPDATED_OFFICE_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByOfficeAddressNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where officeAddress does not contain DEFAULT_OFFICE_ADDRESS
+        defaultCompanyShouldNotBeFound("officeAddress.doesNotContain=" + DEFAULT_OFFICE_ADDRESS);
+
+        // Get all the companyList where officeAddress does not contain UPDATED_OFFICE_ADDRESS
+        defaultCompanyShouldBeFound("officeAddress.doesNotContain=" + UPDATED_OFFICE_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber equals to DEFAULT_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldBeFound("companyPhoneNumber.equals=" + DEFAULT_COMPANY_PHONE_NUMBER);
+
+        // Get all the companyList where companyPhoneNumber equals to UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.equals=" + UPDATED_COMPANY_PHONE_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber not equals to DEFAULT_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.notEquals=" + DEFAULT_COMPANY_PHONE_NUMBER);
+
+        // Get all the companyList where companyPhoneNumber not equals to UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldBeFound("companyPhoneNumber.notEquals=" + UPDATED_COMPANY_PHONE_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber in DEFAULT_COMPANY_PHONE_NUMBER or UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldBeFound("companyPhoneNumber.in=" + DEFAULT_COMPANY_PHONE_NUMBER + "," + UPDATED_COMPANY_PHONE_NUMBER);
+
+        // Get all the companyList where companyPhoneNumber equals to UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.in=" + UPDATED_COMPANY_PHONE_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber is not null
+        defaultCompanyShouldBeFound("companyPhoneNumber.specified=true");
+
+        // Get all the companyList where companyPhoneNumber is null
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber contains DEFAULT_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldBeFound("companyPhoneNumber.contains=" + DEFAULT_COMPANY_PHONE_NUMBER);
+
+        // Get all the companyList where companyPhoneNumber contains UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.contains=" + UPDATED_COMPANY_PHONE_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByCompanyPhoneNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where companyPhoneNumber does not contain DEFAULT_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldNotBeFound("companyPhoneNumber.doesNotContain=" + DEFAULT_COMPANY_PHONE_NUMBER);
+
+        // Get all the companyList where companyPhoneNumber does not contain UPDATED_COMPANY_PHONE_NUMBER
+        defaultCompanyShouldBeFound("companyPhoneNumber.doesNotContain=" + UPDATED_COMPANY_PHONE_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email equals to DEFAULT_EMAIL
+        defaultCompanyShouldBeFound("email.equals=" + DEFAULT_EMAIL);
+
+        // Get all the companyList where email equals to UPDATED_EMAIL
+        defaultCompanyShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email not equals to DEFAULT_EMAIL
+        defaultCompanyShouldNotBeFound("email.notEquals=" + DEFAULT_EMAIL);
+
+        // Get all the companyList where email not equals to UPDATED_EMAIL
+        defaultCompanyShouldBeFound("email.notEquals=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email in DEFAULT_EMAIL or UPDATED_EMAIL
+        defaultCompanyShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
+
+        // Get all the companyList where email equals to UPDATED_EMAIL
+        defaultCompanyShouldNotBeFound("email.in=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email is not null
+        defaultCompanyShouldBeFound("email.specified=true");
+
+        // Get all the companyList where email is null
+        defaultCompanyShouldNotBeFound("email.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email contains DEFAULT_EMAIL
+        defaultCompanyShouldBeFound("email.contains=" + DEFAULT_EMAIL);
+
+        // Get all the companyList where email contains UPDATED_EMAIL
+        defaultCompanyShouldNotBeFound("email.contains=" + UPDATED_EMAIL);
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByEmailNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where email does not contain DEFAULT_EMAIL
+        defaultCompanyShouldNotBeFound("email.doesNotContain=" + DEFAULT_EMAIL);
+
+        // Get all the companyList where email does not contain UPDATED_EMAIL
+        defaultCompanyShouldBeFound("email.doesNotContain=" + UPDATED_EMAIL);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultCompanyShouldBeFound(String filter) throws Exception {
+        restCompanyMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
+            .andExpect(jsonPath("$.[*].companyName").value(hasItem(DEFAULT_COMPANY_NAME)))
+            .andExpect(jsonPath("$.[*].dealsIn").value(hasItem(DEFAULT_DEALS_IN)))
+            .andExpect(jsonPath("$.[*].officeAddress").value(hasItem(DEFAULT_OFFICE_ADDRESS)))
+            .andExpect(jsonPath("$.[*].companyPhoneNumber").value(hasItem(DEFAULT_COMPANY_PHONE_NUMBER)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
+
+        // Check, that the count call also returns 1
+        restCompanyMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultCompanyShouldNotBeFound(String filter) throws Exception {
+        restCompanyMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restCompanyMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
     }
 
     @Test

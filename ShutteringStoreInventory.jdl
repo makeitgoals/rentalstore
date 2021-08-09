@@ -119,4 +119,5 @@ service all with serviceImpl
 // Set an angular suffix
 // angularSuffix * with mySuffix
 
-filter Customer, Product, RentalOrder, Bill, Payment
+// Create Query Service for all Entities
+filter all

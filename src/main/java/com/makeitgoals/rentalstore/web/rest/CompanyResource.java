@@ -1,7 +1,9 @@
 package com.makeitgoals.rentalstore.web.rest;
 
 import com.makeitgoals.rentalstore.repository.CompanyRepository;
+import com.makeitgoals.rentalstore.service.CompanyQueryService;
 import com.makeitgoals.rentalstore.service.CompanyService;
+import com.makeitgoals.rentalstore.service.criteria.CompanyCriteria;
 import com.makeitgoals.rentalstore.service.dto.CompanyDTO;
 import com.makeitgoals.rentalstore.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -37,9 +39,12 @@ public class CompanyResource {
 
     private final CompanyRepository companyRepository;
 
-    public CompanyResource(CompanyService companyService, CompanyRepository companyRepository) {
+    private final CompanyQueryService companyQueryService;
+
+    public CompanyResource(CompanyService companyService, CompanyRepository companyRepository, CompanyQueryService companyQueryService) {
         this.companyService = companyService;
         this.companyRepository = companyRepository;
+        this.companyQueryService = companyQueryService;
     }
 
     /**
@@ -135,12 +140,26 @@ public class CompanyResource {
     /**
      * {@code GET  /companies} : get all the companies.
      *
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of companies in body.
      */
     @GetMapping("/companies")
-    public List<CompanyDTO> getAllCompanies() {
-        log.debug("REST request to get all Companies");
-        return companyService.findAll();
+    public ResponseEntity<List<CompanyDTO>> getAllCompanies(CompanyCriteria criteria) {
+        log.debug("REST request to get Companies by criteria: {}", criteria);
+        List<CompanyDTO> entityList = companyQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+     * {@code GET  /companies/count} : count all the companies.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/companies/count")
+    public ResponseEntity<Long> countCompanies(CompanyCriteria criteria) {
+        log.debug("REST request to count Companies by criteria: {}", criteria);
+        return ResponseEntity.ok().body(companyQueryService.countByCriteria(criteria));
     }
 
     /**
